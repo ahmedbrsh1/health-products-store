@@ -1,103 +1,180 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
+import HomeSection from "./components/HomeSection";
+import MainNavigation from "./components/MainNavigation";
+import LandingImage from "../../public/Landing.jpg";
+import Ourstory from "../../public/Ourstory.jpg";
+import Link from "next/link";
+import HomeProducts from "./components/HomeProducts";
+
+import Instagram1 from "../../public/Instagram1.jpg";
+import Instagram2 from "../../public/Instagram2.jpg";
+import Instagram3 from "../../public/Instagram3.jpg";
+import Instagram4 from "../../public/Instagram4.jpg";
+import Instagram5 from "../../public/Instagram5.jpg";
+import Instagram6 from "../../public/Instagram6.jpg";
+import Instagram7 from "../../public/Instagram7.jpg";
+import Instagram8 from "../../public/Instagram8.jpg";
+import Instagram9 from "../../public/Instagram9.jpg";
+import Instagram10 from "../../public/Instagram10.jpg";
+import Instagram11 from "../../public/Instagram11.jpg";
+import Instagram12 from "../../public/Instagram12.jpg";
+import Article1 from "../../public/Article1.jpg";
+import Article2 from "../../public/Article2.jpg";
+
+const images = [
+  Instagram1,
+  Instagram2,
+  Instagram3,
+  Instagram4,
+  Instagram5,
+  Instagram6,
+  Instagram7,
+  Instagram8,
+  Instagram9,
+  Instagram10,
+  Instagram11,
+  Instagram12,
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const events = [
+    {
+      id: 1,
+      title: "Relaxing & Pampering",
+      description: "Pariatur ad nisi ex tempor ea",
+    },
+    {
+      id: 2,
+      title: "Smooth & Bright Skin",
+      description: "Pariatur ad nisi ex tempor ea",
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  return (
+    <>
+      {/* <MainNavigation /> */}
+      <header
+        className="relative min-h-[600px] bg-left bg-cover flex items-center"
+        style={{ backgroundImage: `url(${LandingImage.src})` }}
+      >
+        <div className="container mx-auto px-4">
+          <div>
+            <h1 className="mb-2">Gift for your skin</h1>
+            <p className="leading-7 text-2xl font mb-4">
+              Aliquip fugiat ipsum nostrud ex et eu incididunt <br /> quis minim
+              dolore excepteur voluptate
+            </p>
+            <Link className="btn btn-primary" href={""}>
+              Shop Now
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </header>
+
+      <HomeSection title="Our Products">
+        <HomeProducts />
+      </HomeSection>
+
+      <HomeSection title="Event promotion">
+        <div className="grid sm:grid-cols-2 gap-8">
+          {events.map((event, index) => (
+            <Event
+              key={index}
+              id={event.id}
+              title={event.title}
+              subtitle={event.description}
+            />
+          ))}
+        </div>
+      </HomeSection>
+      <HomeSection title="Our story">
+        <div>
+          <Image src={Ourstory} alt="Video" className="w-full" />
+        </div>
+      </HomeSection>
+
+      <HomeSection>
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="flex flex-col justify-between p-5">
+            <div>
+              <h2 className="mb-8">Read What's New</h2>
+              <p className="!text-neutral-900 text-xl">
+                Sint consequat in ipsum irure adipisicing dolore culpa
+                incididunt. Veniam elit magna anim ipsum eiusmod eu
+              </p>
+            </div>
+            <div>
+              <Link className="btn btn-lg btn-outline btn-primary" href={""}>
+                Explore more
+              </Link>
+            </div>
+          </div>
+          <Blog
+            img={Article1}
+            title="Anim sint Lorem excepteur commodo"
+            date="Oct 12, 2022"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <Blog
+            img={Article2}
+            title="Adipisicing elit proident in elit magna deser"
+            date="Oct 12, 2022"
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        </div>
+      </HomeSection>
+
+      <HomeSection title="Instagram">
+        <div className="text-center mb-8">
+          <Link className="text-2xl" href="www.instagram.com">
+            @Lorem
+          </Link>
+        </div>
+        <div className="grid grid-cols-6 gap-4">
+          {images.map((image, index) => (
+            <Image
+              className="w-full h-full"
+              src={image}
+              key={index}
+              alt={`Instagram${index}`}
+            />
+          ))}
+        </div>
+      </HomeSection>
+    </>
   );
 }
+
+const Event: React.FC<{ id: number; title: string; subtitle: string }> = (
+  props
+) => {
+  return (
+    <article
+      className="p-10 min-h-80 bg-cover bg-center bg-no-repeat flex items-center"
+      style={{
+        backgroundImage: `url(/HomeImg${props.id}.jpg)`,
+      }}
+    >
+      <div className="w-1/2 ">
+        <h3 className="mb-4">{props.title}</h3>
+        <p className="text-2xl  mb-8">{props.subtitle}</p>
+
+        <Link href={""} className="btn btn-wide btn-primary">
+          Explore
+        </Link>
+      </div>
+    </article>
+  );
+};
+
+const Blog: React.FC<{ img: StaticImageData; title: string; date: string }> = (
+  props
+) => {
+  return (
+    <article className="rounded-xl  border-neutral-300 border overflow-hidden ">
+      <Image src={props.img} alt="Article 1 Image" className="w-full" />
+      <div className="p-5">
+        <h4 className="mb-6">{props.title}</h4>
+        <p className="!text-neutral-600 text-sm">{props.date}</p>
+      </div>
+    </article>
+  );
+};
