@@ -6,10 +6,12 @@ const MainNavigation: React.FC = () => {
   return (
     <div className="container mx-auto">
       <nav className="flex justify-between items-center">
-        <Image src={Logo} alt="Logo" priority />
+        <Link href="/">
+          <Image src={Logo} alt="Logo" priority />
+        </Link>
         <ul className="flex gap-4 ">
           <li>
-            <Link href="/shop">Shop</Link>
+            <Link href="/products">Shop</Link>
           </li>
           <li>
             <Link href="/shop">Offers</Link>

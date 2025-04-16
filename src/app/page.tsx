@@ -1,6 +1,5 @@
 import Image, { StaticImageData } from "next/image";
-import HomeSection from "./components/HomeSection";
-import MainNavigation from "./components/MainNavigation";
+
 import LandingImage from "../../public/Landing.jpg";
 import Ourstory from "../../public/Ourstory.jpg";
 import Link from "next/link";
@@ -20,6 +19,7 @@ import Instagram11 from "../../public/Instagram11.jpg";
 import Instagram12 from "../../public/Instagram12.jpg";
 import Article1 from "../../public/Article1.jpg";
 import Article2 from "../../public/Article2.jpg";
+import Header from "./components/Header";
 
 const images = [
   Instagram1,
@@ -52,24 +52,7 @@ export default function Home() {
 
   return (
     <>
-      {/* <MainNavigation /> */}
-      <header
-        className="relative min-h-[600px] bg-left bg-cover flex items-center"
-        style={{ backgroundImage: `url(${LandingImage.src})` }}
-      >
-        <div className="container mx-auto px-4">
-          <div>
-            <h1 className="mb-2">Gift for your skin</h1>
-            <p className="leading-7 text-2xl font mb-4">
-              Aliquip fugiat ipsum nostrud ex et eu incididunt <br /> quis minim
-              dolore excepteur voluptate
-            </p>
-            <Link className="btn btn-primary" href={""}>
-              Shop Now
-            </Link>
-          </div>
-        </div>
-      </header>
+      <Header link={true} image="/Landing.jpg" />
 
       <HomeSection title="Our Products">
         <HomeProducts />
@@ -176,5 +159,18 @@ const Blog: React.FC<{ img: StaticImageData; title: string; date: string }> = (
         <p className="!text-neutral-600 text-sm">{props.date}</p>
       </div>
     </article>
+  );
+};
+
+const HomeSection: React.FC<{ title?: string; children: React.ReactNode }> = (
+  props
+) => {
+  return (
+    <>
+      <div className="container mx-auto mt-40">
+        {props.title && <h2 className="text-center mb-12">{props.title}</h2>}
+        <div>{props.children}</div>
+      </div>
+    </>
   );
 };
