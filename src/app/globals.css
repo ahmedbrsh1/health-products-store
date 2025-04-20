@@ -1,9 +1,15 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light --default;
+}
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -43,4 +49,24 @@ h5 {
   font-size: 1.125rem;
   color: #171717;
   font-weight: 800;
+}
+
+label {
+  color: #424955ff;
+  font-weight: bold;
+}
+
+input:focus {
+  outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

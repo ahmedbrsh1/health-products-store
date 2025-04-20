@@ -15,18 +15,31 @@ const QuantityInput: React.FC = () => {
   }
   return (
     <>
-      <button className="btn btn-soft btn-primary" onClick={decrementQuantity}>
-        -
-      </button>
-      <input
-        type="number"
-        value={quantity}
-        onChange={(e) => setQuantity(+e.target.value)}
-        className="input input-lg"
-      />
-      <button className="btn btn-soft btn-primary" onClick={incrementQuantity}>
-        +
-      </button>
+      <div>
+        <label htmlFor="quantity" className="block">
+          Quantity
+        </label>
+        <button
+          className="btn btn-soft hover:btn-primary"
+          onClick={decrementQuantity}
+        >
+          -
+        </button>
+        <input
+          type="number"
+          min={1}
+          id="quantity"
+          value={quantity}
+          onChange={(e) => setQuantity(+e.target.value)}
+          className="max-w-10 bg-neutral-200 mx-4 p-2 rounded text-center appearance-none"
+        />
+        <button
+          className="btn btn-soft hover:btn-primary"
+          onClick={incrementQuantity}
+        >
+          +
+        </button>
+      </div>
     </>
   );
 };
