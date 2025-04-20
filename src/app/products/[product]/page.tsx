@@ -1,5 +1,4 @@
 import Product from "@/app/models/product";
-import Product2 from "../../../../public/Product2.jpg";
 
 import Productsub1 from "../../../../public/Productsub1.jpg";
 import Productsub2 from "../../../../public/Productsub2.jpg";
@@ -11,14 +10,14 @@ import Ingredient3 from "../../../../public/Ingredient3.jpg";
 import UserImage from "../../../../public/UserImage.png";
 import Howtouse from "../../../../public/Howtouse.jpg";
 import Benefits from "../../../../public/Benefits.jpg";
-import Product1 from "../../../../public/Product1.jpg";
 
 import QuantityInput from "@/app/components/QuantityInput";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 import Products from "@/app/components/Products";
-
+import Product1 from "../../../../public/Product1.jpg";
+import Product2 from "../../../../public/Product2.jpg";
 import Product3 from "../../../../public/Product3.jpg";
 import Product4 from "../../../../public/Product4.jpg";
 

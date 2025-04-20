@@ -1,15 +1,58 @@
 import Image from "next/image";
-import Product3 from "../../../public/Product3.jpg";
 import { CheckCircle, CreditCard } from "lucide-react";
 import Link from "next/link";
+import Products from "../components/Products";
+import Product from "../models/product";
 
+import Product1 from "../../../public/Product1.jpg";
+import Product2 from "../../../public/Product2.jpg";
+import Product3 from "../../../public/Product3.jpg";
+import Product4 from "../../../public/Product4.jpg";
+
+const products: Product[] = [
+  {
+    id: 1,
+    title: "Oil",
+    description: "abc",
+    category: "bestseller",
+    image: Product1,
+    price: 12,
+  },
+  {
+    id: 2,
+    title: "Shampoo",
+    description: "cbd",
+    category: "bestseller",
+    image: Product2,
+    price: 15,
+    discountedPrice: 12,
+  },
+  {
+    id: 3,
+    title: "Conditioner",
+    description: "cbd",
+    category: "bestseller",
+    image: Product3,
+    price: 15,
+    discountedPrice: 12,
+  },
+  {
+    id: 4,
+    title: "Body wash",
+    description: "cbd",
+    category: "bestseller",
+    image: Product4,
+    price: 15,
+    discountedPrice: 12,
+  },
+];
 const CartPage: React.FC = () => {
   return (
     <>
-      <div className="container mx-auto">
+      <div className="container mx-auto mt-16">
         <h2 className="text-center">My Shopping Bag(3 Items)</h2>
-        {/* I stopped Here */}
-        <div className="grid md:grid-cols-[1fr_auto] gap-4">
+
+        <div className="grid md:grid-cols-[1fr_auto] gap-4 mb-16">
           <div>
             <section className="p-4 border border-neutral-200 rounded mb-4">
               <h3>Order Summary</h3>
@@ -41,7 +84,7 @@ const CartPage: React.FC = () => {
               </table>
             </section>
 
-            <section className="p-4 border border-neutral-200 rounded">
+            <section className="p-4 border border-neutral-200 rounded mb-4">
               <h3>Delivery options</h3>
               <div>
                 <label className="mb-2 block">Operator</label>
@@ -95,10 +138,14 @@ const CartPage: React.FC = () => {
             </section>
             <section className="p-4 border border-neutral-200 rounded">
               <h4>Customer Information</h4>
-              <div className="grid md:grid-cols-[auto_1fr] gap-x-4 gap-y-6 mb-4">
+              <div className="grid md:grid-cols-2 gap-x-4 gap-y-6 mb-4">
                 <CustomerInput name="fullname" label="Full name" />
                 <CustomerInput name="phonenumber" label="Phone number" />
-                <CustomerInput name="address" label="Address" />
+                <CustomerInput
+                  className="md:col-span-2"
+                  name="address"
+                  label="Address"
+                />
               </div>
               <input
                 type="checkbox"
@@ -108,16 +155,58 @@ const CartPage: React.FC = () => {
               <label htmlFor="default">Save as default</label>
             </section>
           </div>
-          <div className="border border-primary rounded h-fit p-8">
+          <div className="border border-primary rounded-2xl h-fit p-8">
             <h5>Payment Method</h5>
             <Link href={""}>Change payment methods</Link>
-            <ul>
+            <ul className="mb-8">
               <li>
                 <PaymentMethod id="1" type="Mastercard" last4="5987" />
+                <PaymentMethod id="2" type="Mastercard" last4="5987" />
               </li>
             </ul>
+            <label className="mb-2 block" htmlFor="voucher">
+              Voucher
+            </label>
+            <div className="flex gap-2 mb-2">
+              <input
+                className="border border-neutral-200 rounded"
+                type="text"
+                id="voucher"
+                name="voucher"
+              />
+              <button className="btn btn-primary btn-soft">Apply</button>
+            </div>
+            <span className="bg-secondary rounded-full px-2 py-1 text-white ">
+              $15 Off
+            </span>
+            <section className="mt-8">
+              <h5 className="mb-4">Summary</h5>
+              <dl>
+                <div className="flex justify-between">
+                  <dt>Subtotal</dt>
+                  <dd>$180</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt>Discount</dt>
+                  <dd>-$15</dd>
+                </div>
+                <div className="flex justify-between border-b-2 border-neutral-200 pb-2">
+                  <dt>Delivery fee</dt>
+                  <dd>$22</dd>
+                </div>
+                <div className="flex justify-between mt-4 items-center">
+                  <dt>Total</dt>{" "}
+                  <dd className="text-secondary text-2xl font-bold">$187</dd>
+                </div>
+              </dl>
+            </section>
           </div>
         </div>
+
+        <section>
+          <h2>Related products</h2>
+          <Products products={products} filter="all" />
+        </section>
       </div>
     </>
   );
@@ -155,9 +244,13 @@ const DeliveryOption: React.FC<{
   );
 };
 
-const CustomerInput: React.FC<{ label: string; name: string }> = (props) => {
+const CustomerInput: React.FC<{
+  label: string;
+  name: string;
+  className?: string;
+}> = (props) => {
   return (
-    <div>
+    <div className={props.className}>
       <label className="block" htmlFor={props.name}>
         {props.label}
       </label>
@@ -187,7 +280,7 @@ const PaymentMethod: React.FC<{
       />
       <label
         htmlFor={props.id}
-        className="flex justify-between  border border-neutral-400 p-4 rounded peer-checked:border-primary peer-checked:bg-[#F2F2FDFF]"
+        className="flex justify-between  border border-neutral-400 p-4 rounded peer-checked:border-primary peer-checked:bg-[#F2F2FDFF] mb-4"
       >
         <div className="flex">
           <CreditCard className="mr-2" />
