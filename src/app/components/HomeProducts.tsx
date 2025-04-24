@@ -24,7 +24,7 @@ const products: Product[] = [
     id: 2,
     title: "Shampoo",
     description: "cbd",
-    category: "bestseller",
+    category: "bestseller-new",
     image: Product2,
     price: 15,
     discountedPrice: 12,
@@ -33,7 +33,7 @@ const products: Product[] = [
     id: 3,
     title: "Conditioner",
     description: "cbd",
-    category: "bestseller",
+    category: "new",
     image: Product3,
     price: 15,
     discountedPrice: 12,
@@ -59,15 +59,15 @@ const HomeProducts: React.FC = () => {
       <div className="text-center mb-12">
         <button
           onClick={() => updateFilter("bestseller")}
-          className={`btn btn-soft w-[150px]  ${
-            filter === "bestseller" ? "btn-primary" : ""
+          className={`btn btn-soft btn-primary w-[150px]  ${
+            filter === "bestseller" ? "btn-active" : ""
           }`}
         >
           Best-sellers
         </button>
         <button
           onClick={() => updateFilter("new")}
-          className={`btn btn-primary w-[150px]  ${
+          className={`btn btn-soft btn-primary w-[150px]  ${
             filter === "new" ? "btn-active" : ""
           }`}
         >

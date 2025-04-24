@@ -1,5 +1,12 @@
 import Image from "next/image";
-import { CheckCircle, CreditCard } from "lucide-react";
+import {
+  CheckCircle,
+  CreditCard,
+  ReceiptText,
+  ShoppingCart,
+  Truck,
+  UserCircle,
+} from "lucide-react";
 import Link from "next/link";
 import Products from "../components/Products";
 import Product from "../models/product";
@@ -46,16 +53,19 @@ const products: Product[] = [
     discountedPrice: 12,
   },
 ];
+
 const CartPage: React.FC = () => {
   return (
     <>
       <div className="container mx-auto mt-16">
-        <h2 className="text-center">My Shopping Bag(3 Items)</h2>
+        <h2 className="text-center mb-16">My Shopping Bag(3 Items)</h2>
 
         <div className="grid md:grid-cols-[1fr_auto] gap-4 mb-16">
           <div>
             <section className="p-4 border border-neutral-200 rounded mb-4">
-              <h3>Order Summary</h3>
+              <h5 className="flex gap-2">
+                <ShoppingCart /> Order Summary
+              </h5>
               <table className="table">
                 <thead>
                   <tr>
@@ -85,7 +95,9 @@ const CartPage: React.FC = () => {
             </section>
 
             <section className="p-4 border border-neutral-200 rounded mb-4">
-              <h3>Delivery options</h3>
+              <h5 className="flex gap-2 mb-4">
+                <Truck /> Delivery options
+              </h5>
               <div>
                 <label className="mb-2 block">Operator</label>
                 <div className="mb-8">
@@ -137,7 +149,9 @@ const CartPage: React.FC = () => {
               </div>
             </section>
             <section className="p-4 border border-neutral-200 rounded">
-              <h4>Customer Information</h4>
+              <h5 className="flex gap-2 mb-8">
+                <UserCircle /> Customer Information
+              </h5>
               <div className="grid md:grid-cols-2 gap-x-4 gap-y-6 mb-4">
                 <CustomerInput name="fullname" label="Full name" />
                 <CustomerInput name="phonenumber" label="Phone number" />
@@ -156,8 +170,10 @@ const CartPage: React.FC = () => {
             </section>
           </div>
           <div className="border border-primary rounded-2xl h-fit p-8">
-            <h5>Payment Method</h5>
-            <Link href={""}>Change payment methods</Link>
+            <h5 className="mb-4">Payment Method</h5>
+            <Link className="text-sm text-info mb-2 block" href={""}>
+              Change payment methods
+            </Link>
             <ul className="mb-8">
               <li>
                 <PaymentMethod id="1" type="Mastercard" last4="5987" />
@@ -169,7 +185,7 @@ const CartPage: React.FC = () => {
             </label>
             <div className="flex gap-2 mb-2">
               <input
-                className="border border-neutral-200 rounded"
+                className="border border-neutral-200 rounded-lg pl-2"
                 type="text"
                 id="voucher"
                 name="voucher"
@@ -180,25 +196,40 @@ const CartPage: React.FC = () => {
               $15 Off
             </span>
             <section className="mt-8">
-              <h5 className="mb-4">Summary</h5>
+              <h5 className="flex gap-2 mb-4">
+                <ReceiptText className="text-[#EA916EFF]" />
+                Summary
+              </h5>
               <dl>
                 <div className="flex justify-between">
                   <dt>Subtotal</dt>
-                  <dd>$180</dd>
+                  <dd>
+                    <strong>$180</strong>
+                  </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt>Discount</dt>
-                  <dd>-$15</dd>
+                  <dd>
+                    <strong>-$15</strong>
+                  </dd>
                 </div>
                 <div className="flex justify-between border-b-2 border-neutral-200 pb-2">
                   <dt>Delivery fee</dt>
-                  <dd>$22</dd>
+                  <dd>
+                    <strong>$22</strong>
+                  </dd>
                 </div>
                 <div className="flex justify-between mt-4 items-center">
                   <dt>Total</dt>{" "}
                   <dd className="text-secondary text-2xl font-bold">$187</dd>
                 </div>
               </dl>
+              <Link
+                className="btn btn-primary w-full text-lg h-12 mt-4"
+                href={""}
+              >
+                Proceed to payment
+              </Link>
             </section>
           </div>
         </div>
@@ -231,13 +262,13 @@ const DeliveryOption: React.FC<{
       />
       <label
         htmlFor={props.id}
-        className="flex gap-4 border border-neutral-400 p-4 rounded peer-checked:border-primary peer-checked:bg-[#F2F2FDFF]"
+        className="flex gap-4 border border-neutral-400 p-4 rounded peer-checked:text-primary peer-checked:border-primary peer-checked:bg-[#F2F2FDFF]"
       >
         <CheckCircle />
         <div>
-          <h5>${props.price}</h5>
-          <p>{props.title} delivery</p>
-          <p>Est.arrival: {props.arrival}</p>
+          <h5 style={{ color: "inherit" }}>${props.price}</h5>
+          <p style={{ color: "inherit" }}>{props.title} delivery</p>
+          <p style={{ color: "inherit" }}>Est.arrival: {props.arrival}</p>
         </div>
       </label>
     </div>
@@ -280,14 +311,14 @@ const PaymentMethod: React.FC<{
       />
       <label
         htmlFor={props.id}
-        className="flex justify-between  border border-neutral-400 p-4 rounded peer-checked:border-primary peer-checked:bg-[#F2F2FDFF] mb-4"
+        className="flex justify-between  border border-neutral-400 p-4 rounded peer-checked:text-primary peer-checked:border-primary peer-checked:bg-[#F2F2FDFF] mb-4"
       >
         <div className="flex">
           <CreditCard className="mr-2" />
-          <p>{props.type}</p>
+          <p style={{ color: "inherit" }}>{props.type}</p>
         </div>
 
-        <p>{props.last4}</p>
+        <p style={{ color: "inherit" }}>{props.last4}</p>
       </label>
     </div>
   );

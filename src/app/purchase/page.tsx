@@ -3,6 +3,7 @@ import Product2 from "../../../public/Product2.jpg";
 
 import {
   Calendar,
+  CreditCard,
   DollarSign,
   LucideIcon,
   ReceiptText,
@@ -16,31 +17,35 @@ const PurchasePage: React.FC = () => {
   return (
     <div className="container mx-auto mt-16">
       <h2 className="text-center">Thank you for your purchase!</h2>
-      <p className="text-center text-neutral-500 mb-8">
+      <p className="text-center !text-neutral-500 mb-8">
         You will receive an confirmation letter through your email
       </p>
       <div className="border border-neutral-200 p-4 rounded mx-auto max-w-[50rem]">
         <section className="border-b border-neutral-200">
           <DataRow title="Date" icon={Calendar}>
-            <dd>27/04/2022</dd>
+            <dd className="font-bold">27/04/2022</dd>
           </DataRow>
           <DataRow title="Customer" icon={User}>
-            <dd>Alvaro Garcia</dd>
+            <dd className="font-bold">Alvaro Garcia</dd>
           </DataRow>
           <DataRow title="Payment method" icon={Wallet}>
-            <dd>27/04/2022</dd>
+            <dd className="font-bold">
+              <CreditCard />
+            </dd>
           </DataRow>
         </section>
         <section className="mb-4">
           <DataRow title="Order number" icon={ReceiptText}>
-            <dd>27/04/2022</dd>
+            <dd className="font-bold">732-123-4567</dd>
           </DataRow>
           <DataRow title="Total" icon={DollarSign}>
-            <dd>$187</dd>
+            <dd className="font-bold text-xl">$187</dd>
           </DataRow>
         </section>
 
-        <h4 className="border-b border-neutral-200 pb-2">Order line</h4>
+        <h5 className="!text-2xl border-b border-neutral-200 pb-2">
+          Order line
+        </h5>
         <ul className="my-8">
           <OrderItem
             image={Product1}

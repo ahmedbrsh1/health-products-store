@@ -14,7 +14,8 @@ import Benefits from "../../../../public/Benefits.jpg";
 import QuantityInput from "@/app/components/QuantityInput";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import { Star } from "lucide-react";
+import { CircleCheck, Pencil, Star } from "lucide-react";
+
 import Products from "@/app/components/Products";
 import Product1 from "../../../../public/Product1.jpg";
 import Product2 from "../../../../public/Product2.jpg";
@@ -98,9 +99,9 @@ const ProductPage: React.FC = () => {
         <div>
           <h2>Product Name</h2>
           <p>Aliquip fugiat ipsum nostrud ex et eu incididunt</p>
-          <div className="my-6">
+          <div className="my-6 flex gap-4 items-center">
             <data
-              className="font-bold text-5xl mr-2 text-primary"
+              className="font-bold text-5xl text-primary"
               value={
                 product.discountedPrice
                   ? product.discountedPrice
@@ -113,7 +114,9 @@ const ProductPage: React.FC = () => {
                 : product.price}
             </data>
             {product.discountedPrice && (
-              <span className=" text-neutral-500">${product.price}</span>
+              <span className=" text-neutral-500 text-xl">
+                ${product.price}
+              </span>
             )}
           </div>
 
@@ -122,26 +125,46 @@ const ProductPage: React.FC = () => {
             ex sint ullamco exercitation amet officia mollit. Qui cillum
             pariatur in con
           </p>
-          <div>
-            <span className="mr-4">368 reviews</span>
-            <span className="mr-4">823 sold</span>
-            <span className="mr-4">&&&&& 4.5</span>
+          <div className="flex gap-6">
+            <span>
+              <strong>368</strong> reviews
+            </span>
+            <span>
+              <strong>823</strong> sold
+            </span>
+            <span className="mr-4 flex">
+              <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
+              <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
+              <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
+              <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
+              <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
+              <strong>4.5</strong>
+            </span>
           </div>
 
-          <div className="my-4">Free shipping on orders over $49USD</div>
-          <div className="my-4">Free + easy returns</div>
+          <p className="flex gap-2 my-4">
+            <CircleCheck className="text-green-700" /> Free shipping on orders
+            over $49USD
+          </p>
+          <p className="flex gap-2 my-4">
+            <CircleCheck className="text-green-700" /> Free + easy returns
+          </p>
 
           <label className="block" htmlFor="size">
             Choose size
           </label>
-          <select name="size" id="size" className="mb-6">
+          <select
+            name="size"
+            id="size"
+            className="mb-6 bg-neutral-200 w-1/2 p-2 rounded"
+          >
             <option value="50">50.00 ML</option>
             <option value="50">100.00 ML</option>
           </select>
 
           <QuantityInput />
 
-          <div className="mt-4 flex flex-wrap justify-center gap-4">
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <button className="btn btn-outline btn-primary  btn-wide">
               Add to bag
             </button>
@@ -151,41 +174,31 @@ const ProductPage: React.FC = () => {
       </div>
 
       <div>
-        <h2 className="!text-3xl mb-4">Related Products</h2>
+        <h2 className="!text-3xl mb-8">Related Products</h2>
         <Products products={products} filter="all" />
       </div>
 
-      <nav className="mt-24">
-        <ul className="flex gap-4 justify-center">
-          <li>
-            <a href="#benefits" className="btn btn-lg btn-soft btn-primary">
-              Benefits
-            </a>
+      <nav className="mt-24 mb-16">
+        <ul className="flex flex-wrap gap-4 justify-center">
+          <li className="btn btn-ghost flex-1 h-12 text-primary">
+            <a href="#benefits">Benefits</a>
           </li>
-          <li>
-            <a href="#ingredients" className="btn btn-lg btn-soft btn-primary">
-              Ingredients
-            </a>
+          <li className="btn btn-ghost flex-1 h-12 text-primary">
+            <a href="#ingredients">Ingredients</a>
           </li>
-          <li>
-            <a href="#howtouse" className="btn btn-lg btn-soft btn-primary">
-              How to use
-            </a>
+          <li className="btn btn-ghost flex-1 h-12 text-primary">
+            <a href="#howtouse">How to use</a>
           </li>
-          <li>
-            <a href="#reviews" className="btn btn-lg btn-soft btn-primary">
-              Reviews
-            </a>
+          <li className="btn btn-ghost flex-1 h-12 text-primary">
+            <a href="#reviews">Reviews</a>
           </li>
-          <li>
-            <a href="#faqs" className="btn btn-lg btn-soft btn-primary">
-              FAQs
-            </a>
+          <li className="btn btn-ghost flex-1 h-12 text-primary">
+            <a href="#faqs">FAQs</a>
           </li>
         </ul>
       </nav>
 
-      <section id="benefits">
+      <section id="benefits" className="mb-24">
         <div className="grid md:grid-cols-2 items-center gap-16">
           <div>
             <h2>Benefits</h2>
@@ -216,7 +229,7 @@ const ProductPage: React.FC = () => {
         </div>
       </section>
 
-      <section id="ingredients">
+      <section id="ingredients" className="mb-24">
         <h2>Ingredients</h2>
         <div className="grid md:grid-cols-3 gap-8">
           <Ingredient
@@ -242,16 +255,16 @@ const ProductPage: React.FC = () => {
         </div>
       </section>
 
-      <section id="howtouse">
+      <section id="howtouse" className="mb-24">
         <h2>How to use</h2>
         <Image src={Howtouse} alt="How to use" className="rounded-2xl w-full" />
       </section>
 
-      <section id="reviews">
+      <section id="reviews" className="mb-24">
         <div className="flex justify-between items-center">
           <h2>Reviews</h2>
           <button className="btn btn-primary btn-outline">
-            Write a review
+            <Pencil /> Write a review
           </button>
         </div>
         <div className="grid md:grid-cols-[auto_1fr] gap-16">
@@ -267,7 +280,7 @@ const ProductPage: React.FC = () => {
               </div>
               <span className="text-neutral-900">368 Reviews</span>
             </div>
-            <div>
+            <div className="grid gap-8">
               <Percentage star={5} value={60} />
               <Percentage star={4} value={25} />
               <Percentage star={3} value={10} />
@@ -341,11 +354,11 @@ const Ingredient: React.FC<{
 
 const Percentage: React.FC<{ value: number; star: number }> = (props) => {
   return (
-    <div className="flex items-center">
+    <div className="flex gap-4 items-center">
       {props.star}
-      Star
+      <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
       <progress
-        className="progress mx-4 w-48"
+        className="progress w-64"
         value={props.value}
         max={100}
       ></progress>

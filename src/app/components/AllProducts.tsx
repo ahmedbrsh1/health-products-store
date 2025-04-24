@@ -13,7 +13,9 @@ import Product10 from "../../../public/Product10.jpg";
 import Product11 from "../../../public/Product11.jpg";
 import Product12 from "../../../public/Product12.jpg";
 import Product from "@/app/models/product";
+
 import { useState } from "react";
+import { ArrowDownUp, Search } from "lucide-react";
 
 const products: Product[] = [
   {
@@ -141,21 +143,36 @@ const AllProducts: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between mb-16 items-center">
-        <div className="flex gap-2">
-          <button onClick={() => setFilter("all")} className="btn btn-primary">
+      <div className="flex justify-center gap-4 mb-16 items-center flex-wrap md:justify-between">
+        <div className="flex justify-center gap-4 flex-wrap">
+          <button
+            onClick={() => setFilter("all")}
+            className={`btn btn-primary btn-ghost w-48 h-12 text-lg ${
+              filter === "all" ? "btn-active" : ""
+            }`}
+          >
             All Products
           </button>
-          <button onClick={() => setFilter("face")} className="btn btn-primary">
+          <button
+            onClick={() => setFilter("face")}
+            className={`btn btn-primary btn-ghost w-48 h-12 text-lg ${
+              filter === "face" ? "btn-active" : ""
+            }`}
+          >
             Face
           </button>
-          <button onClick={() => setFilter("body")} className="btn btn-primary">
+          <button
+            onClick={() => setFilter("body")}
+            className={`btn btn-primary btn-ghost w-48 h-12 text-lg ${
+              filter === "body" ? "btn-active" : ""
+            }`}
+          >
             Body
           </button>
         </div>
-        <div>
+        <div className="flex justify-center flex-wrap gap-4">
           <input
-            className="border-b border-neutral-200 mr-4 focus:outline-0 py-4 text-neutral-500 placeholder:text-neutral-200 text-lg"
+            className="border-b border-neutral-200 focus:outline-0 py-4 text-neutral-500 placeholder:text-neutral-200 text-lg"
             onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search product..."
@@ -168,7 +185,7 @@ const AllProducts: React.FC = () => {
             defaultValue={"default"}
           >
             <option disabled value="default">
-              Sort by
+              Sort by <ArrowDownUp />
             </option>
             <option value="a-z">A-Z</option>
             <option value="z-a">Z-A</option>
