@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   CheckCircle,
   CreditCard,
@@ -9,50 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Products from "../components/Products";
-import Product from "../models/product";
-
-import Product1 from "../../../public/Product1.jpg";
-import Product2 from "../../../public/Product2.jpg";
-import Product3 from "../../../public/Product3.jpg";
-import Product4 from "../../../public/Product4.jpg";
-
-const products: Product[] = [
-  {
-    id: 1,
-    title: "Oil",
-    description: "abc",
-    category: "bestseller",
-    image: Product1,
-    price: 12,
-  },
-  {
-    id: 2,
-    title: "Shampoo",
-    description: "cbd",
-    category: "bestseller",
-    image: Product2,
-    price: 15,
-    discountedPrice: 12,
-  },
-  {
-    id: 3,
-    title: "Conditioner",
-    description: "cbd",
-    category: "bestseller",
-    image: Product3,
-    price: 15,
-    discountedPrice: 12,
-  },
-  {
-    id: 4,
-    title: "Body wash",
-    description: "cbd",
-    category: "bestseller",
-    image: Product4,
-    price: 15,
-    discountedPrice: 12,
-  },
-];
+import CartItems from "../components/CartItems";
 
 const CartPage: React.FC = () => {
   return (
@@ -76,20 +32,7 @@ const CartPage: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className="flex items-center gap-4">
-                      <Image
-                        className="w-16"
-                        src={Product3}
-                        alt="ProductImage"
-                      />
-                      <span>Product Name</span>
-                    </td>
-                    <td>$52</td>
-                    <td>2</td>
-                    <td>$104</td>
-                    <td>Delete</td>
-                  </tr>
+                  <CartItems />
                 </tbody>
               </table>
             </section>
@@ -236,7 +179,7 @@ const CartPage: React.FC = () => {
 
         <section>
           <h2>Related products</h2>
-          <Products products={products} filter="all" />
+          {/* <Products products={products} filter="all" /> */}
         </section>
       </div>
     </>

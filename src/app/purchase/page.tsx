@@ -1,6 +1,3 @@
-import Product1 from "../../../public/Product1.jpg";
-import Product2 from "../../../public/Product2.jpg";
-
 import {
   Calendar,
   CreditCard,
@@ -47,7 +44,7 @@ const PurchasePage: React.FC = () => {
           Order line
         </h5>
         <ul className="my-8">
-          <OrderItem
+          {/* <OrderItem
             image={Product1}
             title="Product name"
             quantity={2}
@@ -60,7 +57,7 @@ const PurchasePage: React.FC = () => {
             quantity={2}
             size={50}
             total={104}
-          />
+          /> */}
         </ul>
 
         <Link className="btn btn-primary" href={"products"}>

@@ -25,7 +25,7 @@ const MainNavigation: React.FC = () => {
         </ul>
         <div>
           <input type="text" />
-          <button>Cart(0)</button>
+          <Link href={"/cart"}>Cart(0)</Link>
           <button>User</button>
         </div>
       </nav>

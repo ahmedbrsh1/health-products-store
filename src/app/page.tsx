@@ -20,6 +20,7 @@ import Instagram12 from "../../public/Instagram12.jpg";
 import Article1 from "../../public/Article1.jpg";
 import Article2 from "../../public/Article2.jpg";
 import Header from "./components/Header";
+import { getFeaturedProducts } from "../../lib/db/products";
 
 const images = [
   Instagram1,
@@ -36,7 +37,8 @@ const images = [
   Instagram12,
 ];
 
-export default function Home() {
+export default async function Home() {
+  const products = await getFeaturedProducts();
   const events = [
     {
       id: 1,
@@ -55,7 +57,7 @@ export default function Home() {
       <Header link={true} image="/Landing.jpg" />
 
       <HomeSection title="Our Products">
-        <HomeProducts />
+        <HomeProducts products={products} />
       </HomeSection>
 
       <HomeSection title="Event promotion">

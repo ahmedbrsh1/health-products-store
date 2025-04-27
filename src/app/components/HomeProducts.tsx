@@ -4,51 +4,7 @@ import { useState } from "react";
 import Products from "./Products";
 import Product from "../models/product";
 
-import Product1 from "../../../public/Product1.jpg";
-import Product2 from "../../../public/Product2.jpg";
-import Product3 from "../../../public/Product3.jpg";
-import Product4 from "../../../public/Product4.jpg";
-
-const productImages = [Product1, Product2, Product3, Product4];
-
-const products: Product[] = [
-  {
-    id: 1,
-    title: "Oil",
-    description: "abc",
-    category: "bestseller",
-    image: Product1,
-    price: 12,
-  },
-  {
-    id: 2,
-    title: "Shampoo",
-    description: "cbd",
-    category: "bestseller-new",
-    image: Product2,
-    price: 15,
-    discountedPrice: 12,
-  },
-  {
-    id: 3,
-    title: "Conditioner",
-    description: "cbd",
-    category: "new",
-    image: Product3,
-    price: 15,
-    discountedPrice: 12,
-  },
-  {
-    id: 4,
-    title: "Body wash",
-    description: "cbd",
-    category: "bestseller",
-    image: Product4,
-    price: 15,
-    discountedPrice: 12,
-  },
-];
-const HomeProducts: React.FC = () => {
+const HomeProducts: React.FC<{ products: Product[] }> = (props) => {
   const [filter, setFilter] = useState<string>("bestseller");
 
   function updateFilter(filter: string) {
@@ -74,7 +30,7 @@ const HomeProducts: React.FC = () => {
           New products
         </button>
       </div>
-      <Products filter={filter} products={products} />
+      <Products filter={filter} products={props.products} />
     </>
   );
 };

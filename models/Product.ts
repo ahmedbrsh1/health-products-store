@@ -13,9 +13,9 @@ export interface IProduct extends Document {
   rate: number;
   benefits: string[];
   ingredients: string[];
-  faqs: { question: string; answer: string }[]; // FAQ now contains both question and answer as objects
+  faqs: { question: string; answer: string }[];
   categories: string[];
-  images: string[]; // Can be URLs or local paths, as per your setup
+  images: string[];
 }
 
 const productSchema: Schema = new Schema<IProduct>(

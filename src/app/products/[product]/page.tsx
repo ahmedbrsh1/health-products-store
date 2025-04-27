@@ -1,5 +1,4 @@
 import Product from "@/app/models/product";
-
 import Productsub1 from "../../../../public/Productsub1.jpg";
 import Productsub2 from "../../../../public/Productsub2.jpg";
 import Productsub3 from "../../../../public/Productsub3.jpg";
@@ -17,59 +16,13 @@ import Link from "next/link";
 import { CircleCheck, Pencil, Star } from "lucide-react";
 
 import Products from "@/app/components/Products";
-import Product1 from "../../../../public/Product1.jpg";
-import Product2 from "../../../../public/Product2.jpg";
-import Product3 from "../../../../public/Product3.jpg";
-import Product4 from "../../../../public/Product4.jpg";
+import { getProductById } from "../../../../lib/db/products";
+import ImageSelector from "@/app/components/ImageSelector";
 
-const products: Product[] = [
-  {
-    id: 1,
-    title: "Oil",
-    description: "abc",
-    category: "bestseller",
-    image: Product1,
-    price: 12,
-  },
-  {
-    id: 2,
-    title: "Shampoo",
-    description: "cbd",
-    category: "bestseller",
-    image: Product2,
-    price: 15,
-    discountedPrice: 12,
-  },
-  {
-    id: 3,
-    title: "Conditioner",
-    description: "cbd",
-    category: "bestseller",
-    image: Product3,
-    price: 15,
-    discountedPrice: 12,
-  },
-  {
-    id: 4,
-    title: "Body wash",
-    description: "cbd",
-    category: "bestseller",
-    image: Product4,
-    price: 15,
-    discountedPrice: 12,
-  },
-];
+const ProductPage = async ({ params }: { params: { product: string } }) => {
+  const id = await params.product;
 
-const ProductPage: React.FC = () => {
-  const product: Product = {
-    id: 2,
-    title: "b",
-    description: "cbd",
-    category: "body",
-    image: Product2,
-    price: 13,
-    discountedPrice: 12,
-  };
+  const product: Product = await getProductById(id);
 
   return (
     <div className="container mx-auto mt-16">
@@ -85,37 +38,29 @@ const ProductPage: React.FC = () => {
         <span>Detail</span>
       </div>
       <div className="grid md:grid-cols-2 gap-8 mb-24">
-        <div className="flex">
-          <div className="mr-8">
-            <Image src={Productsub1} alt="Product Image" />
-            <Image src={Productsub2} alt="Product Image" />
-            <Image src={Productsub3} alt="Product Image" />
-            <Image src={Productsub4} alt="Product Image" />
-          </div>
-          <div>
-            <Image src={Product1} alt="Product Image" />
-          </div>
-        </div>
+        <ImageSelector images={product.images} />
         <div>
-          <h2>Product Name</h2>
-          <p>Aliquip fugiat ipsum nostrud ex et eu incididunt</p>
+          <h2>{product.title}</h2>
+          <p>{product.description}</p>
           <div className="my-6 flex gap-4 items-center">
             <data
               className="font-bold text-5xl text-primary"
               value={
-                product.discountedPrice
-                  ? product.discountedPrice
-                  : product.price
+                product.discount
+                  ? (product.prices[0] * (1 - product.discount / 100)).toFixed(
+                      2
+                    )
+                  : product.prices[0]
               }
             >
               $
-              {product.discountedPrice
-                ? product.discountedPrice
-                : product.price}
+              {product.discount
+                ? (product.prices[0] * (1 - product.discount / 100)).toFixed(2)
+                : product.prices[0]}
             </data>
-            {product.discountedPrice && (
+            {product.discount && (
               <span className=" text-neutral-500 text-xl">
-                ${product.price}
+                ${product.prices[0]}
               </span>
             )}
           </div>
@@ -127,10 +72,10 @@ const ProductPage: React.FC = () => {
           </p>
           <div className="flex gap-6">
             <span>
-              <strong>368</strong> reviews
+              <strong>{product.reviews.length}</strong> reviews
             </span>
             <span>
-              <strong>823</strong> sold
+              <strong>{product.sold}</strong> sold
             </span>
             <span className="mr-4 flex">
               <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
@@ -138,7 +83,7 @@ const ProductPage: React.FC = () => {
               <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
               <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
               <Star fill="#F3C63FFF" className="text-[#F3C63FFF]" />
-              <strong>4.5</strong>
+              <strong>{product.rate}</strong>
             </span>
           </div>
 
@@ -158,8 +103,11 @@ const ProductPage: React.FC = () => {
             id="size"
             className="mb-6 bg-neutral-200 w-1/2 p-2 rounded"
           >
-            <option value="50">50.00 ML</option>
-            <option value="50">100.00 ML</option>
+            {product.sizes.map((size) => (
+              <option key={size} value={size}>
+                {size}ML
+              </option>
+            ))}
           </select>
 
           <QuantityInput />
@@ -175,7 +123,7 @@ const ProductPage: React.FC = () => {
 
       <div>
         <h2 className="!text-3xl mb-8">Related Products</h2>
-        <Products products={products} filter="all" />
+        {/* <Products products={products} filter="all" /> */}
       </div>
 
       <nav className="mt-24 mb-16">
