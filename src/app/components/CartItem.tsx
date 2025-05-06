@@ -1,11 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { combinedCartModel } from "../models/cart";
-const CartItem: React.FC<{ cartItem: combinedCartModel }> = ({ cartItem }) => {
+import { cartLocalModel } from "../models/cart";
+const CartItem: React.FC<{
+  cartItem: combinedCartModel;
+  deleteCartItem: (id: string) => void;
+}> = ({ cartItem, deleteCartItem }) => {
   const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(
     cartItem.sizes.findIndex((size) => size === cartItem.size)
   );
+
+  function updateAndDeleteHandler(
+    e?: ChangeEvent<HTMLSelectElement>,
+    action?: string
+  ) {
+    const cart: cartLocalModel[] = JSON.parse(localStorage.getItem("cart")!);
+
+    const index = cart.findIndex(
+      (localCartItem) => localCartItem.id === cartItem.id
+    );
+
+    if (action === "UPDATE") {
+      setSelectedSizeIndex(
+        cartItem.sizes.findIndex((s) => s === Number(e!.target.value))
+      );
+      cart[index].size =
+        cartItem.sizes[
+          cartItem.sizes.findIndex((s) => s === Number(e!.target.value))
+        ];
+    } else {
+      cart.splice(index, 1);
+      deleteCartItem(cartItem.id);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }
 
   return (
     <tr key={cartItem.id}>
@@ -17,12 +47,8 @@ const CartItem: React.FC<{ cartItem: combinedCartModel }> = ({ cartItem }) => {
             className="border border-neutral-200 p-2 w-32 rounded"
             name="sizes"
             id="sizes"
-            value={cartItem.size}
-            onChange={(e) =>
-              setSelectedSizeIndex(
-                cartItem.sizes.findIndex((s) => s === Number(e.target.value))
-              )
-            }
+            value={cartItem.sizes[selectedSizeIndex]}
+            onChange={(e) => updateAndDeleteHandler(e, "UPDATE")}
           >
             {cartItem.sizes.map((size) => (
               <option key={size} value={size}>
@@ -35,7 +61,9 @@ const CartItem: React.FC<{ cartItem: combinedCartModel }> = ({ cartItem }) => {
       <td>${cartItem.prices[selectedSizeIndex]}</td>
       <td>{cartItem.quantity}</td>
       <td>${cartItem.prices[selectedSizeIndex] * cartItem.quantity}</td>
-      <td>Delete</td>
+      <td>
+        <button onClick={() => updateAndDeleteHandler()}>Delete</button>
+      </td>
     </tr>
   );
 };

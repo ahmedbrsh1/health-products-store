@@ -3,50 +3,52 @@ import { useEffect, useState } from "react";
 import { cartLocalModel, combinedCartModel } from "../models/cart";
 import { cartServerModel } from "../models/cart";
 import CartItem from "./CartItem";
+import getProductsFromIds from "../actions/cart";
 
 const CartItems: React.FC = () => {
   const [cart, setCart] = useState<combinedCartModel[]>([]);
 
+  function deleteCartItem(id: string) {
+    setCart((prevCart) => prevCart.filter((cartItem) => cartItem.id !== id));
+  }
+
   useEffect(() => {
-    const cartItems: cartLocalModel[] = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart")!)
-      : [];
-    const ids = cartItems.map((cartItem) => cartItem.id);
-
     async function fetchProducts() {
-      const response = await fetch(`/api/get-cart-products`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(ids),
-      });
-
-      if (!response.ok) {
+      const cartItems: cartLocalModel[] = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart")!)
+        : [];
+      if (cartItems.length === 0) {
+        return;
       }
+      const ids = [...new Set(cartItems.map((item) => item.productId))];
 
-      const serverCart = await response.json();
+      const serverCart = await getProductsFromIds(ids);
 
-      const combinedCartsData: combinedCartModel[] = serverCart.map(
-        (cartItem: cartServerModel, index: number) => {
+      const combinedCartsData: combinedCartModel[] = cartItems.map(
+        (localCartItem: cartLocalModel) => {
+          const index = serverCart.findIndex(
+            (serverCartItem: cartServerModel) =>
+              localCartItem.productId === serverCartItem.productId
+          );
+
           return {
-            ...cartItem,
-            id: cartItems[index].id,
-            quantity: cartItems[index].quantity,
-            size: cartItems[index].size,
+            ...localCartItem,
+            ...serverCart[index],
           };
         }
       );
 
       setCart(combinedCartsData);
     }
-
-    if (cartItems.length > 0) {
-      fetchProducts();
-    }
+    fetchProducts();
   }, []);
+
   return cart.map((cartItem) => (
-    <CartItem key={cartItem.id} cartItem={cartItem} />
+    <CartItem
+      deleteCartItem={deleteCartItem}
+      key={cartItem.id}
+      cartItem={cartItem}
+    />
   ));
 };
 

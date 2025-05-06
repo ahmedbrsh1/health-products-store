@@ -19,15 +19,18 @@ const SelectSize: React.FC<{
       ? JSON.parse(localStorage.getItem("cart")!)
       : [];
     const productIndex = oldCart.findIndex(
-      (cartItem) => cartItem.id === props.id
+      (cartItem) => cartItem.productId === props.id && cartItem.size === size
     );
-    if (productIndex !== -1 && size === oldCart[productIndex].size) {
+    if (productIndex !== -1) {
       oldCart[productIndex].quantity += 1;
       localStorage.setItem("cart", JSON.stringify(oldCart));
     } else {
       localStorage.setItem(
         "cart",
-        JSON.stringify([...oldCart, { id: props.id, size, quantity: 1 }])
+        JSON.stringify([
+          ...oldCart,
+          { id: oldCart.length + 1, productId: props.id, size, quantity: 1 },
+        ])
       );
     }
   }

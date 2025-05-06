@@ -33,6 +33,7 @@ export async function getProductsByIds(ids: string[]) {
   const products = await Product.find({ _id: { $in: ids } }).lean();
 
   return products.map((product) => ({
+    productId: product._id.toString(),
     title: product.title,
     image: product.images?.[0] || "",
     prices: product.prices,
