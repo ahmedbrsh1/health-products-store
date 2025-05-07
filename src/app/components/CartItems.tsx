@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { cartLocalModel, combinedCartModel } from "../models/cart";
 import { cartServerModel } from "../models/cart";
 import CartItem from "./CartItem";
-import getProductsFromIds from "../actions/cart";
+import { getProductsFromIds } from "../actions/cart";
 
 const CartItems: React.FC = () => {
   const [cart, setCart] = useState<combinedCartModel[]>([]);
