@@ -1,13 +1,9 @@
 import connect from "../db/connect";
 import Order from "../../models/Order";
 
-export async function makeOrder(
-  userId: string,
-  products: any[],
-  totalPrice: number
-) {
+export async function makeOrder(userId: string, products: any[]) {
   await connect();
-  const order = new Order({ userId, products, totalPrice });
+  const order = new Order({ userId, products });
   await order.save();
   return order;
 }

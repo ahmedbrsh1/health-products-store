@@ -4,8 +4,6 @@ const CartPage: React.FC = () => {
   return (
     <>
       <div className="container mx-auto mt-16">
-        <h2 className="text-center mb-16">My Shopping Bag(3 Items)</h2>
-
         <Cart />
 
         <section>

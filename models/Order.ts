@@ -4,7 +4,6 @@ import { orderItemSchema, IOrderItem } from "./OrderItem";
 export interface IOrder extends Document {
   userId: mongoose.Types.ObjectId;
   products: IOrderItem[];
-  totalPrice: number;
 }
 
 const orderSchema: Schema = new Schema<IOrder>(
@@ -15,7 +14,6 @@ const orderSchema: Schema = new Schema<IOrder>(
       required: true,
     },
     products: [orderItemSchema],
-    totalPrice: { type: Number, required: true },
   },
   { timestamps: true }
 );

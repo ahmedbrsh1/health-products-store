@@ -1,8 +1,10 @@
 import Link from "next/link";
 import OrderItem from "../components/OrderItem";
-import Product1 from "../../../public/Product1.jpg";
-import Product2 from "../../../public/Product2.jpg";
-const PurchaseHistoryPage: React.FC = () => {
+import { getFeaturedProducts } from "../../../lib/db/products";
+import Product from "../../../models/Product";
+
+const PurchaseHistoryPage: React.FC = async () => {
+  const products: Product[] = await getFeaturedProducts();
   return (
     <div className="container mx-auto mt-16 max-w-[50rem]">
       <h2 className="text-center">Purchase history</h2>
@@ -30,20 +32,16 @@ const PurchaseHistoryPage: React.FC = () => {
           </div>
         </div>
         <div className="collapse-content text-sm">
-          <OrderItem
-            title="Product name"
-            image={Product1}
-            quantity={2}
-            size={50}
-            total={100}
-          />
-          <OrderItem
-            title="Product name"
-            image={Product1}
-            quantity={2}
-            size={50}
-            total={100}
-          />
+          {products.map((product) => (
+            <OrderItem
+              title={product.title}
+              image={product.images[0]}
+              quantity={1}
+              size={product.sizes[0]}
+              total={150}
+              key={product._id}
+            />
+          ))}
         </div>
       </div>
     </div>

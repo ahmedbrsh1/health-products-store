@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 
 const OrderItem: React.FC<{
-  image: StaticImageData;
+  image: string;
   title: string;
   size: number;
   quantity: number;
@@ -10,7 +10,7 @@ const OrderItem: React.FC<{
   return (
     <li className="flex justify-between items-center border-b border-neutral-200 py-4 last:border-none">
       <div className="flex gap-4 items-center">
-        <Image className="max-w-28" src={props.image} alt="Product Image" />
+        <img className="max-w-28" src={props.image} alt="Product Image" />
         <div>
           <h5>{props.title}</h5>
           <p className="text-sm !text-neutral-500 mb-4">Size: {props.size}ml</p>
