@@ -9,8 +9,6 @@ import {
   UserCircle,
 } from "lucide-react";
 import Link from "next/link";
-import Products from "../components/Products";
-import CartItems from "../components/CartItems";
 
 import {
   FormEvent,
@@ -39,7 +37,7 @@ type errors = {
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<combinedCartModel[]>([]);
   const [errors, setErrors] = useState<errors>({});
-  const [state, submitOrderAction] = useActionState(submitFormAction, {
+  const [, submitOrderAction] = useActionState(submitFormAction, {
     success: false,
     message: null,
   });

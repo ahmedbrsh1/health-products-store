@@ -1,4 +1,3 @@
-import { StaticImageData } from "next/image";
 import Link from "next/link";
 
 const Header: React.FC<{ link: boolean; image: string }> = (props) => {

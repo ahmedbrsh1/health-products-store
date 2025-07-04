@@ -1,6 +1,5 @@
 import Image, { StaticImageData } from "next/image";
 
-import LandingImage from "../../public/Landing.jpg";
 import Ourstory from "../../public/Ourstory.jpg";
 import Link from "next/link";
 import HomeProducts from "./components/HomeProducts";
@@ -82,7 +81,7 @@ export default async function Home() {
         <div className="grid md:grid-cols-3 gap-4">
           <div className="flex flex-col justify-between p-5">
             <div>
-              <h2 className="mb-8">Read What's New</h2>
+              <h2 className="mb-8">Read What&apos;s New</h2>
               <p className="!text-neutral-900 text-xl">
                 Sint consequat in ipsum irure adipisicing dolore culpa
                 incididunt. Veniam elit magna anim ipsum eiusmod eu

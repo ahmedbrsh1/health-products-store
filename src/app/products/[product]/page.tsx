@@ -1,8 +1,5 @@
 import Product from "@/app/models/product";
-import Productsub1 from "../../../../public/Productsub1.jpg";
-import Productsub2 from "../../../../public/Productsub2.jpg";
-import Productsub3 from "../../../../public/Productsub3.jpg";
-import Productsub4 from "../../../../public/Productsub4.jpg";
+
 import Ingredient1 from "../../../../public/Ingredient1.jpg";
 import Ingredient2 from "../../../../public/Ingredient2.jpg";
 import Ingredient3 from "../../../../public/Ingredient3.jpg";
@@ -10,12 +7,10 @@ import UserImage from "../../../../public/UserImage.png";
 import Howtouse from "../../../../public/Howtouse.jpg";
 import Benefits from "../../../../public/Benefits.jpg";
 
-import QuantityInput from "@/app/components/QuantityInput";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import { CircleCheck, Pencil, Star } from "lucide-react";
 
-import Products from "@/app/components/Products";
 import { getProductById } from "../../../../lib/db/products";
 import ImageSelector from "@/app/components/ImageSelector";
 import AddToCart from "@/app/components/AddToCart";

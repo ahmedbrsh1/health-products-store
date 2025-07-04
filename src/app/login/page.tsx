@@ -12,10 +12,7 @@ const initialState: LoginState = {
   errors: {},
 };
 export default function LoginPage() {
-  const [state, formAction] = useActionState<LoginState>(
-    loginAction,
-    initialState
-  );
+  const [, formAction] = useActionState<LoginState>(loginAction, initialState);
   return (
     <form action={formAction} className="p-4 border border-neutral-200 rounded">
       <h3 className="!text-neutral-900">Welcome back</h3>
@@ -40,7 +37,7 @@ export default function LoginPage() {
       </div>
 
       <div>
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/register" className="text-primary">
           Sign up
         </Link>

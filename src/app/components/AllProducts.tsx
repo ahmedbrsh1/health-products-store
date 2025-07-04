@@ -7,7 +7,7 @@ const AllProducts: React.FC<{ products: Product[] }> = (props) => {
   const [filter, setFilter] = useState<string>("all");
   const [search, setSearch] = useState<string>();
   const [sort, setSort] = useState<string>();
-  const [page, setPage] = useState<number>(1);
+  const [, setPage] = useState<number>(1);
 
   function incrementPage() {
     setPage((prev) => prev + 1);

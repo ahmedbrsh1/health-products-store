@@ -14,10 +14,7 @@ const initialState: LoginState = {
   errors: {},
 };
 export default function LoginPage() {
-  const [state, formAction] = useActionState<LoginState>(
-    loginAction,
-    initialState
-  );
+  const [formAction] = useActionState<LoginState>(loginAction, initialState);
   const router = useRouter();
   return (
     <>
@@ -51,7 +48,7 @@ export default function LoginPage() {
         </div>
 
         <div>
-          Don't have an account?
+          Don&apos;t have an account?
           <Link href={""} className="text-primary">
             Sign up
           </Link>

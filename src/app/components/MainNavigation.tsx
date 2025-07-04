@@ -2,7 +2,7 @@ import Image from "next/image";
 import Logo from "../../../public/Logo.png";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import connect from "../../../lib/db/connect";
 import { getUserById } from "../../../lib/db/users";
 
@@ -10,7 +10,10 @@ const MainNavigation: React.FC = async () => {
   const token = (await cookies()).get("token")?.value;
   let user;
   if (token) {
-    const { userId }: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & {
+      userId: string;
+    };
+    const { userId } = decoded;
     await connect();
     user = await getUserById(userId);
   }
@@ -41,7 +44,7 @@ const MainNavigation: React.FC = async () => {
           <Link href="/cart">Cart</Link>
 
           {!user && <Link href="/login">Sign in</Link>}
-          {user && <button>user.fname</button>}
+          {user && <button>{user.fname}</button>}
         </div>
       </nav>
     </div>

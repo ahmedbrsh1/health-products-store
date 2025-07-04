@@ -1,6 +1,6 @@
 "use client";
 import { ShoppingCart } from "lucide-react";
-import Product from "../models/product";
+
 import { useState } from "react";
 import { cartLocalModel } from "../models/cart";
 const SelectSize: React.FC<{

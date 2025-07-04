@@ -1,6 +1,6 @@
 import connect from "../db/connect";
 import Product from "../../models/Product";
-import { IProduct } from "../../models/Product";
+
 export async function getAllProducts() {
   try {
     await connect();

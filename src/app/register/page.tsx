@@ -9,7 +9,7 @@ export default function RegisterPage() {
       action={registerAction}
       className="p-4 border border-neutral-200 rounded max-w-96"
     >
-      <h3 className="!text-neutral-900">Let's get started</h3>
+      <h3 className="!text-neutral-900">Let&apos;s get started</h3>
       <p className="!text-neutral-700 mb-16">Sign up your account</p>
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">

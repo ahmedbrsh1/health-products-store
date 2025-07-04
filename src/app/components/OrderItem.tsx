@@ -1,5 +1,3 @@
-import Image, { StaticImageData } from "next/image";
-
 const OrderItem: React.FC<{
   image: string;
   title: string;

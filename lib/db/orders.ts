@@ -12,7 +12,7 @@ function formatOrderNumber(sequence: number): string {
 
 export async function makeOrder(
   userId: string,
-  products: any[],
+  products: { productId: string; size: number; quantity: number }[],
   operator: string,
   delivery: string
 ) {

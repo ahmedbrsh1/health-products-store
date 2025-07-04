@@ -1,7 +1,6 @@
 import Link from "next/link";
 import OrderItem from "../components/OrderItem";
-import { getFeaturedProducts } from "../../../lib/db/products";
-import Product from "../../../models/Product";
+
 import { cookies } from "next/headers";
 import { getUserOrders } from "../../../lib/db/orders";
 
@@ -20,7 +19,10 @@ const PurchaseHistoryPage: React.FC = async () => {
       </p>
 
       {orders?.map((order) => (
-        <div className="collapse bg-base-100 border-base-300 border mb-6">
+        <div
+          key={order.orderNumber}
+          className="collapse bg-base-100 border-base-300 border mb-6"
+        >
           <input type="checkbox" />
           <div className="collapse-title font-semibold flex justify-between">
             <div>

@@ -2,10 +2,7 @@
 
 import Product from "../models/product";
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
 
-import Image from "next/image";
-import { productImages } from "../images";
 import SelectSize from "./SelectSize";
 
 const Products: React.FC<{
