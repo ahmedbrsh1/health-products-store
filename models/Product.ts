@@ -1,7 +1,8 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, Types } from "mongoose";
 import { IReview, reviewSchema } from "./Review";
 
 export interface IProduct extends Document {
+  _id: Types.ObjectId;
   title: string;
   description: string;
   prices: number[];

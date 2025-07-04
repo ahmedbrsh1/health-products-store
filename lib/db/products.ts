@@ -1,5 +1,5 @@
 import connect from "../db/connect";
-import Product from "../../models/Product";
+import Product, { IProduct } from "../../models/Product";
 
 export async function getAllProducts() {
   try {
@@ -30,9 +30,9 @@ export async function getFeaturedProducts() {
 }
 
 export async function getProductsByIds(ids: string[]) {
-  const products = await Product.find({ _id: { $in: ids } }).lean();
+  const products = await Product.find({ _id: { $in: ids } }).lean<IProduct[]>();
 
-  return products.map((product) => ({
+  return products.map((product: IProduct) => ({
     productId: product._id.toString(),
     title: product.title,
     image: product.images?.[0] || "",
