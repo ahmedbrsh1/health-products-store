@@ -1,8 +1,7 @@
 "use client";
 
-import { Link } from "lucide-react";
 import TextInput from "../components/TextInput";
-
+import Link from "next/link";
 import { loginAction } from "../actions/auth";
 import { LoginState } from "../actions/auth";
 import { useActionState } from "react";
@@ -33,7 +32,7 @@ export default function LoginPage() {
             />
             <label htmlFor="rememberme">Remember me</label>
           </div>
-          <Link className="text-primary" href={""}>
+          <Link className="text-primary" href={"/reset"}>
             Forgot password?
           </Link>
         </div>
@@ -41,8 +40,8 @@ export default function LoginPage() {
       </div>
 
       <div>
-        Don't have an account?
-        <Link href={""} className="text-primary">
+        Don't have an account?{" "}
+        <Link href="/register" className="text-primary">
           Sign up
         </Link>
       </div>

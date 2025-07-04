@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 import MainNavigation from "./components/MainNavigation";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -10,14 +11,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>
+      <body className={`antialiased flex flex-col min-h-screen`}>
+        {modal}
         <MainNavigation />
-        {children}
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   );

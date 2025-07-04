@@ -10,6 +10,7 @@ const ImageSelector: React.FC<{ images: string[] }> = (props) => {
         {props.images.length > 1 &&
           props.images.map((image) => (
             <img
+              key={image}
               onClick={() => setSelectedImage(image)}
               className="rounded cursor-pointer"
               src={image}

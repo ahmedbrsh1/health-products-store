@@ -18,9 +18,14 @@ import { CircleCheck, Pencil, Star } from "lucide-react";
 import Products from "@/app/components/Products";
 import { getProductById } from "../../../../lib/db/products";
 import ImageSelector from "@/app/components/ImageSelector";
+import AddToCart from "@/app/components/AddToCart";
 
-const ProductPage = async ({ params }: { params: { product: string } }) => {
-  const id = await params.product;
+const ProductPage = async ({
+  params,
+}: {
+  params: Promise<{ product: string }>;
+}) => {
+  const id = (await params).product;
 
   const product: Product = await getProductById(id);
 
@@ -98,26 +103,7 @@ const ProductPage = async ({ params }: { params: { product: string } }) => {
           <label className="block" htmlFor="size">
             Choose size
           </label>
-          <select
-            name="size"
-            id="size"
-            className="mb-6 bg-neutral-200 w-1/2 p-2 rounded"
-          >
-            {product.sizes.map((size) => (
-              <option key={size} value={size}>
-                {size}ML
-              </option>
-            ))}
-          </select>
-
-          <QuantityInput />
-
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <button className="btn btn-outline btn-primary  btn-wide">
-              Add to bag
-            </button>
-            <button className="btn btn-primary btn-wide">Checkout</button>
-          </div>
+          <AddToCart sizes={product.sizes} id={product._id.toString()} />
         </div>
       </div>
 

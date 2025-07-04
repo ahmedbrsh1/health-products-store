@@ -12,7 +12,13 @@ import Link from "next/link";
 import Products from "../components/Products";
 import CartItems from "../components/CartItems";
 
-import { FormEvent, useActionState, useEffect, useState } from "react";
+import {
+  FormEvent,
+  startTransition,
+  useActionState,
+  useEffect,
+  useState,
+} from "react";
 import { isEmpty } from "../lib/validation";
 import { getProductsFromIds, submitFormAction } from "../actions/cart";
 import ValidationError from "./ValidationError";
@@ -23,7 +29,6 @@ import CartItem from "./CartItem";
 import { VoucherResponse } from "../actions/voucher";
 import TextInput from "./TextInput";
 import { checkVoucher } from "../actions/voucher";
-
 type errors = {
   form?: { fullname?: string; phonenumber?: string; address?: string };
   operator?: boolean;
@@ -34,6 +39,10 @@ type errors = {
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<combinedCartModel[]>([]);
   const [errors, setErrors] = useState<errors>({});
+  const [state, submitOrderAction] = useActionState(submitFormAction, {
+    success: false,
+    message: null,
+  });
 
   let total = 0;
 
@@ -93,6 +102,11 @@ const Cart: React.FC = () => {
       operator: formData.get("operator")?.toString(),
       delivery: formData.get("delivery")?.toString(),
       payment: formData.get("payment")?.toString(),
+      products: cart.map(({ productId, quantity, size }) => ({
+        productId,
+        size,
+        quantity,
+      })),
     };
     const errors: errors = {};
     if (isEmpty(data.fullname)) {
@@ -122,7 +136,10 @@ const Cart: React.FC = () => {
       return;
     }
 
-    submitFormAction(data);
+    startTransition(() => {
+      const result = submitOrderAction(data);
+      console.log(result);
+    });
   }
 
   return (

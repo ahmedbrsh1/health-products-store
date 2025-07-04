@@ -2,9 +2,15 @@ import Link from "next/link";
 import OrderItem from "../components/OrderItem";
 import { getFeaturedProducts } from "../../../lib/db/products";
 import Product from "../../../models/Product";
+import { cookies } from "next/headers";
+import { getUserOrders } from "../../../lib/db/orders";
 
 const PurchaseHistoryPage: React.FC = async () => {
-  const products: Product[] = await getFeaturedProducts();
+  const cookieStore = cookies();
+  const orders = await getUserOrders(cookieStore);
+  console.log(orders);
+
+  // const products: Product[] = await getFeaturedProducts();
   return (
     <div className="container mx-auto mt-16 max-w-[50rem]">
       <h2 className="text-center">Purchase history</h2>
@@ -13,37 +19,39 @@ const PurchaseHistoryPage: React.FC = async () => {
         products.
       </p>
 
-      <div className="collapse bg-base-100 border-base-300 border mb-6">
-        <input type="checkbox" />
-        <div className="collapse-title font-semibold flex justify-between">
-          <div>
-            <span className="text-neutral-500 mr-2">
-              Delivery on March 22,2021
-            </span>
-            <span>Order#4376</span>
+      {orders?.map((order) => (
+        <div className="collapse bg-base-100 border-base-300 border mb-6">
+          <input type="checkbox" />
+          <div className="collapse-title font-semibold flex justify-between">
+            <div>
+              <span className="text-neutral-500 mr-2">
+                Delivery on March 22,2021
+              </span>
+              <span>Order#{order.orderNumber}</span>
+            </div>
+            <div>
+              <Link className="text-neutral-500 text-sm underline" href={""}>
+                Manage order
+              </Link>{" "}
+              <Link className="text-neutral-500 text-sm underline" href={""}>
+                View invoice
+              </Link>
+            </div>
           </div>
-          <div>
-            <Link className="text-neutral-500 text-sm underline" href={""}>
-              Manage order
-            </Link>{" "}
-            <Link className="text-neutral-500 text-sm underline" href={""}>
-              View invoice
-            </Link>
+          <div className="collapse-content text-sm">
+            {order.products.map((product, index) => (
+              <OrderItem
+                title={product.title}
+                image={product.image}
+                quantity={product.quantity}
+                size={product.size}
+                total={product.totalItemPrice}
+                key={index}
+              />
+            ))}
           </div>
         </div>
-        <div className="collapse-content text-sm">
-          {products.map((product) => (
-            <OrderItem
-              title={product.title}
-              image={product.images[0]}
-              quantity={1}
-              size={product.sizes[0]}
-              total={150}
-              key={product._id}
-            />
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

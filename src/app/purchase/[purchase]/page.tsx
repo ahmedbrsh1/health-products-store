@@ -7,10 +7,24 @@ import {
   User,
   Wallet,
 } from "lucide-react";
-import OrderItem from "../components/OrderItem";
+import OrderItem from "../../components/OrderItem";
 import Link from "next/link";
+import { getOrderDetails } from "../../../../lib/db/orders";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
-const PurchasePage: React.FC = () => {
+const PurchasePage: React.FC<{
+  params: Promise<{ purchase: number }>;
+}> = async ({ params }) => {
+  const orderNumber = (await params).purchase;
+  const cookieStore = cookies(); // ✅ only works here
+  const order = await getOrderDetails(orderNumber.toString(), cookieStore);
+  console.log(order);
+
+  if (!order) {
+    notFound();
+  }
+
   return (
     <div className="container mx-auto mt-16">
       <h2 className="text-center">Thank you for your purchase!</h2>
@@ -23,7 +37,7 @@ const PurchasePage: React.FC = () => {
             <dd className="font-bold">27/04/2022</dd>
           </DataRow>
           <DataRow title="Customer" icon={User}>
-            <dd className="font-bold">Alvaro Garcia</dd>
+            <dd className="font-bold">{order.customerName}</dd>
           </DataRow>
           <DataRow title="Payment method" icon={Wallet}>
             <dd className="font-bold">
@@ -33,10 +47,10 @@ const PurchasePage: React.FC = () => {
         </section>
         <section className="mb-4">
           <DataRow title="Order number" icon={ReceiptText}>
-            <dd className="font-bold">732-123-4567</dd>
+            <dd className="font-bold">{order.orderNumber}</dd>
           </DataRow>
           <DataRow title="Total" icon={DollarSign}>
-            <dd className="font-bold text-xl">$187</dd>
+            <dd className="font-bold text-xl">${order.totalPrice}</dd>
           </DataRow>
         </section>
 
@@ -44,20 +58,16 @@ const PurchasePage: React.FC = () => {
           Order line
         </h5>
         <ul className="my-8">
-          {/* <OrderItem
-            image={Product1}
-            title="Product name"
-            quantity={2}
-            size={50}
-            total={104}
-          />
-          <OrderItem
-            image={Product2}
-            title="Product name"
-            quantity={2}
-            size={50}
-            total={104}
-          /> */}
+          {order.products.map((product) => (
+            <OrderItem
+              image={product.image}
+              title={product.title}
+              quantity={product.quantity}
+              size={product.size}
+              total={product.totalItemPrice}
+              key={product._id}
+            />
+          ))}
         </ul>
 
         <Link className="btn btn-primary" href={"products"}>

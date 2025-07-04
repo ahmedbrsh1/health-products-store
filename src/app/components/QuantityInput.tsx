@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 
-const QuantityInput: React.FC = () => {
+const QuantityInput: React.FC<{
+  quantityInput?: React.Ref<HTMLInputElement>;
+}> = ({ quantityInput }) => {
   const [quantity, setQuantity] = useState<number>(1);
 
   function incrementQuantity() {
@@ -29,6 +31,7 @@ const QuantityInput: React.FC = () => {
           type="number"
           min={1}
           id="quantity"
+          ref={quantityInput}
           value={quantity}
           onChange={(e) => setQuantity(+e.target.value)}
           className="max-w-10 bg-neutral-200 mx-4 p-2 rounded text-center appearance-none"

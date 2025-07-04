@@ -4,6 +4,7 @@ export interface IOrderItem extends Document {
   productId: mongoose.Types.ObjectId;
   quantity: number;
   size: number;
+  totalItemPrice: number;
 }
 
 export const orderItemSchema = new Schema<IOrderItem>({
@@ -14,4 +15,5 @@ export const orderItemSchema = new Schema<IOrderItem>({
   },
   quantity: { type: Number, default: 1 },
   size: { type: Number, required: true },
+  totalItemPrice: { type: Number, required: true },
 });
