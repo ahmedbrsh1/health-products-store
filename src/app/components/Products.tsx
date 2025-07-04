@@ -56,7 +56,7 @@ const Products: React.FC<{
   return (
     <>
       <ul className="grid justify-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-16">
-        {filteredProducts.map((product: Product, index) => (
+        {filteredProducts.map((product: Product) => (
           <li key={product._id} className="min-h-[475px]">
             <article className="relative h-full flex flex-col justify-between">
               <div>

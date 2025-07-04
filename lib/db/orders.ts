@@ -114,7 +114,7 @@ export async function getOrderDetails(
 
   // ✅ Enrich each product with its first image
   const enrichedProducts = await Promise.all(
-    order.products.map(async (item: any) => {
+    order.products.map(async (item: IOrderItem) => {
       const product = await Product.findById(item.productId).lean<IProduct>();
       const image = product?.images?.[0] || null;
       const title = product?.title || null;
