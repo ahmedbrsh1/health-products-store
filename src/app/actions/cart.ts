@@ -5,7 +5,6 @@ import { getProductsByIds } from "../../../lib/db/products";
 import { isEmpty } from "../lib/validation";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import { redirect } from "next/navigation";
 export async function getProductsFromIds(ids: string[]) {
   if (!Array.isArray(ids) || ids.length === 0) {
     throw new Error("Invalid parameters");
@@ -63,7 +62,7 @@ export async function submitFormAction(
     );
 
     return { success: true, orderId: result };
-  } catch (err) {
+  } catch {
     return {
       success: false,
       message: "Something went wrong. Please try again.",
