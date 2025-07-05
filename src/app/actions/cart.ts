@@ -23,16 +23,14 @@ export async function getProductsFromIds(ids: string[]) {
 export async function submitFormAction(
   prevState: { success: boolean; message: string },
   data: {
-    fullname: string;
-    phonenumber: string;
-    address: string;
-    operator: string;
-    delivery: string;
-    products: [];
+    fullname: string | undefined;
+    phonenumber: string | undefined;
+    address: string | undefined;
+    operator: string | undefined;
+    delivery: string | undefined;
+    products: { productId: string; size: number; quantity: number }[];
   }
 ): Promise<{ success: boolean; message: string }> {
-  console.log(data.products.length);
-
   if (
     isEmpty(data.fullname) ||
     isEmpty(data.phonenumber) ||
@@ -55,8 +53,8 @@ export async function submitFormAction(
   const result = await makeOrder(
     userId,
     data.products,
-    data.operator,
-    data.delivery
+    data.operator!,
+    data.delivery!
   );
 
   redirect(`/purchase/${result}`);

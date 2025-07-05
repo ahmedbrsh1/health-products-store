@@ -60,12 +60,12 @@ const PurchasePage: React.FC<{
         <ul className="my-8">
           {order.products.map((product) => (
             <OrderItem
-              image={product.image}
-              title={product.title}
+              image={product.image ?? ""}
+              title={product.title ?? "Untitled"}
               quantity={product.quantity}
               size={product.size}
               total={product.totalItemPrice}
-              key={product._id}
+              key={product.productId}
             />
           ))}
         </ul>

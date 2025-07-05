@@ -34,13 +34,14 @@ type errors = {
   payment?: boolean;
 };
 
+const initialState = {
+  success: false,
+  message: "",
+};
 const Cart: React.FC = () => {
   const [cart, setCart] = useState<combinedCartModel[]>([]);
   const [errors, setErrors] = useState<errors>({});
-  const [, submitOrderAction] = useActionState(submitFormAction, {
-    success: false,
-    message: null,
-  });
+  const [, submitOrderAction] = useActionState(submitFormAction, initialState);
 
   let total = 0;
 
@@ -331,6 +332,7 @@ const PaymentMethod: React.FC<{
 };
 
 import { useRef } from "react";
+import { useFormState } from "react-dom";
 
 const CartSummary: React.FC<{ errors: errors; total: number }> = ({
   errors,

@@ -116,10 +116,12 @@ export async function getOrderDetails(
   const enrichedProducts = await Promise.all(
     order.products.map(async (item: IOrderItem) => {
       const product = await Product.findById(item.productId).lean<IProduct>();
+      const productId = item.productId.toString();
       const image = product?.images?.[0] || null;
       const title = product?.title || null;
       return {
         ...item,
+        productId,
         image,
         title,
       };

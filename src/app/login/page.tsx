@@ -4,7 +4,8 @@ import TextInput from "../components/TextInput";
 import Link from "next/link";
 import { loginAction } from "../actions/auth";
 import { LoginState } from "../actions/auth";
-import { useActionState } from "react";
+
+import { useFormState } from "react-dom";
 
 const initialState: LoginState = {
   success: false,
@@ -12,7 +13,7 @@ const initialState: LoginState = {
   errors: {},
 };
 export default function LoginPage() {
-  const [, formAction] = useActionState<LoginState>(loginAction, initialState);
+  const [, formAction] = useFormState(loginAction, initialState);
   return (
     <form action={formAction} className="p-4 border border-neutral-200 rounded">
       <h3 className="!text-neutral-900">Welcome back</h3>

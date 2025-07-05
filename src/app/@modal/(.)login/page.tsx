@@ -4,9 +4,10 @@ import TextInput from "../../components/TextInput";
 
 import { loginAction } from "../../actions/auth";
 import { LoginState } from "../../actions/auth";
-import { useActionState } from "react";
+
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useFormState } from "react-dom";
 
 const initialState: LoginState = {
   success: false,
@@ -14,7 +15,7 @@ const initialState: LoginState = {
   errors: {},
 };
 export default function LoginPage() {
-  const [formAction] = useActionState<LoginState>(loginAction, initialState);
+  const [, formAction] = useFormState(loginAction, initialState);
   const router = useRouter();
   return (
     <>
