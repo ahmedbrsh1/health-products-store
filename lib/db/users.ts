@@ -20,7 +20,7 @@ export async function loginUser(email: string, password: string) {
   await connect();
   const user = await User.findOne({ email });
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    throw new Error("Invalid credentials");
+    return;
   }
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
     expiresIn: "1d",

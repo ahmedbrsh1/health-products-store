@@ -27,7 +27,7 @@ const AllProducts: React.FC<{ products: Product[] }> = (props) => {
         <div className="flex justify-center gap-4 flex-wrap">
           <button
             onClick={() => setFilter("all")}
-            className={`btn btn-primary btn-ghost w-48 h-12 text-lg ${
+            className={`btn btn-primary btn-ghost w-48 h-12 text-lg text-primary focus:text-neutral-200 hover:text-neutral-200 ${
               filter === "all" ? "btn-active" : ""
             }`}
           >
@@ -35,7 +35,7 @@ const AllProducts: React.FC<{ products: Product[] }> = (props) => {
           </button>
           <button
             onClick={() => setFilter("face")}
-            className={`btn btn-primary btn-ghost w-48 h-12 text-lg ${
+            className={`btn btn-primary btn-ghost w-48 h-12 text-lg text-primary focus:text-neutral-200 hover:text-neutral-200 ${
               filter === "face" ? "btn-active" : ""
             }`}
           >
@@ -43,7 +43,7 @@ const AllProducts: React.FC<{ products: Product[] }> = (props) => {
           </button>
           <button
             onClick={() => setFilter("body")}
-            className={`btn btn-primary btn-ghost w-48 h-12 text-lg ${
+            className={`btn btn-primary btn-ghost w-48 h-12 text-lg text-primary focus:text-neutral-200 hover:text-neutral-200  ${
               filter === "body" ? "btn-active" : ""
             }`}
           >

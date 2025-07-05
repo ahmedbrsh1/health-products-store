@@ -3,6 +3,7 @@
 import { loginUser, registerUser } from "../../../lib/db/users";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export type LoginState = {
   success: boolean;
@@ -53,32 +54,26 @@ export async function loginAction(
   prevState: LoginState,
   formData: FormData
 ): Promise<LoginState> {
-  const registerData = {
-    email: formData.get("email")?.toString(),
-    password: formData.get("password")?.toString(),
-  };
+  const email = formData.get("email")?.toString();
+  const password = formData.get("password")?.toString();
 
-  if (!registerData.email || !registerData.password) {
+  if (!email || !password) {
     return { success: false, message: "Missing credentials" };
   }
 
-  try {
-    const { token } = await loginUser(
-      registerData.email,
-      registerData.password
-    );
+  const result = await loginUser(email, password);
 
-    (await cookies()).set("token", token, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24,
-      path: "/",
-    });
+  if (!result) {
+    return { success: false, message: "Invalid email or password" };
+  }
 
-    return {
-      success: true,
-      message: "Login successful",
-    };
-  } catch {}
+  const { token } = result;
 
-  return { success: false, message: "Invalid email or password" };
+  (await cookies()).set("token", token, {
+    httpOnly: true,
+    maxAge: 60 * 60 * 24,
+    path: "/",
+  });
+
+  redirect("../");
 }

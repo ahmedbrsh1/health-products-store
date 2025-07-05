@@ -38,10 +38,14 @@ const initialState = {
   success: false,
   message: "",
 };
-const Cart: React.FC = () => {
+const Cart: React.FC<{ token: string | undefined }> = ({ token }) => {
   const [cart, setCart] = useState<combinedCartModel[]>([]);
   const [errors, setErrors] = useState<errors>({});
-  const [, submitOrderAction] = useActionState(submitFormAction, initialState);
+  const [state, submitOrderAction] = useActionState(
+    submitFormAction,
+    initialState
+  );
+  const router = useRouter();
 
   let total = 0;
 
@@ -92,6 +96,10 @@ const Cart: React.FC = () => {
 
   function submitHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!token) {
+      router.push("login");
+      return;
+    }
     setErrors({});
     const formData = new FormData(e.currentTarget);
     const data = {
@@ -134,10 +142,11 @@ const Cart: React.FC = () => {
       setErrors(errors);
       return;
     }
-
     startTransition(() => {
-      const result = submitOrderAction(data);
-      console.log(result);
+      submitOrderAction(data);
+      if (state.success) {
+        router.push(`/purchase/${state.orderId}`);
+      }
     });
   }
 
@@ -146,6 +155,25 @@ const Cart: React.FC = () => {
       <h2 className="text-center mb-16">
         My Shopping Bag({cart.length} Items)
       </h2>
+      {state.success === false && state.message && (
+        <div role="alert" className="alert alert-error mb-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>{state.message}</span>
+        </div>
+      )}
+
       <form
         onSubmit={submitHandler}
         className="grid md:grid-cols-[1fr_auto] gap-4 mb-16"
@@ -155,25 +183,27 @@ const Cart: React.FC = () => {
             <h5 className="flex gap-2">
               <ShoppingCart /> Order Summary
             </h5>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {cart.map((cartItem) => (
-                  <CartItem
-                    deleteCartItem={deleteCartItem}
-                    key={cartItem.id}
-                    cartItem={cartItem}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="table max-w-full table-auto">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cart.map((cartItem) => (
+                    <CartItem
+                      deleteCartItem={deleteCartItem}
+                      key={cartItem.id}
+                      cartItem={cartItem}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </section>
 
           <section className="p-4 border border-neutral-200 rounded mb-4">
@@ -332,6 +362,7 @@ const PaymentMethod: React.FC<{
 };
 
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const CartSummary: React.FC<{ errors: errors; total: number }> = ({
   errors,

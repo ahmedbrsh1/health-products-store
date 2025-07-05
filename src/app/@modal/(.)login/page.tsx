@@ -7,7 +7,7 @@ import { LoginState } from "../../actions/auth";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 const initialState: LoginState = {
   success: false,
@@ -15,7 +15,8 @@ const initialState: LoginState = {
   errors: {},
 };
 export default function LoginPage() {
-  const [, formAction] = useFormState(loginAction, initialState);
+  const [, formAction, isPending] = useActionState(loginAction, initialState);
+
   const router = useRouter();
   return (
     <>
@@ -41,16 +42,18 @@ export default function LoginPage() {
               />
               <label htmlFor="rememberme">Remember me</label>
             </div>
-            <Link className="text-primary" href={""}>
+            <Link className="text-primary" href={"/forgetpassword"}>
               Forgot password?
             </Link>
           </div>
-          <button className="btn btn-primary w-full mb-16">Continue</button>
+          <button disabled={isPending} className="btn btn-primary w-full mb-16">
+            {isPending ? "Logging in..." : "Continue"}
+          </button>
         </div>
 
         <div>
           Don&apos;t have an account?
-          <Link href={""} className="text-primary">
+          <Link href="/register" className="text-primary">
             Sign up
           </Link>
         </div>

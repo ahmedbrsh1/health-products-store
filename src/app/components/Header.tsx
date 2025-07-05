@@ -14,7 +14,10 @@ const Header: React.FC<{ link: boolean; image: string }> = (props) => {
             dolore excepteur voluptate
           </p>
           {props.link && (
-            <Link className="btn btn-primary" href={""}>
+            <Link
+              className="btn btn-primary rounded-2xl w-48"
+              href={"/products"}
+            >
               Shop Now
             </Link>
           )}

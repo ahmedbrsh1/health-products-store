@@ -21,7 +21,7 @@ export async function getProductsFromIds(ids: string[]) {
 }
 
 export async function submitFormAction(
-  prevState: { success: boolean; message: string },
+  prevState: { success: boolean; message?: string; orderId?: string },
   data: {
     fullname: string | undefined;
     phonenumber: string | undefined;
@@ -30,34 +30,43 @@ export async function submitFormAction(
     delivery: string | undefined;
     products: { productId: string; size: number; quantity: number }[];
   }
-): Promise<{ success: boolean; message: string }> {
-  if (
-    isEmpty(data.fullname) ||
-    isEmpty(data.phonenumber) ||
-    isEmpty(data.address) ||
-    isEmpty(data.operator) ||
-    isEmpty(data.delivery)
-    // data.products.length < 1
-  ) {
-    return { success: false, message: "Missing fields!" };
+): Promise<{ success: boolean; message?: string; orderId?: string }> {
+  try {
+    if (data.products.length < 1) {
+      return { success: false, message: "Cart is empty!" };
+    }
+    if (
+      isEmpty(data.fullname) ||
+      isEmpty(data.phonenumber) ||
+      isEmpty(data.address) ||
+      isEmpty(data.operator) ||
+      isEmpty(data.delivery)
+    ) {
+      return { success: false, message: "Missing fields!" };
+    }
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    if (!token) {
+      return { success: false, message: "User not signed in" };
+    }
+
+    const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
+      userId: string;
+    };
+
+    const result = await makeOrder(
+      userId,
+      data.products,
+      data.operator!,
+      data.delivery!
+    );
+
+    return { success: true, orderId: result };
+  } catch (err) {
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
   }
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  if (!token) {
-    return { success: false, message: "User not signed in" };
-  }
-
-  const { userId } = jwt.verify(token, process.env.JWT_SECRET!) as {
-    userId: string;
-  };
-  const result = await makeOrder(
-    userId,
-    data.products,
-    data.operator!,
-    data.delivery!
-  );
-
-  redirect(`/purchase/${result}`);
-
-  // submit form
 }
