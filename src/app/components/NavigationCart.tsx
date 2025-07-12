@@ -2,16 +2,11 @@
 
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
+import { useSelector } from "react-redux";
+import { cartLocalModel } from "../models/cart";
 const NavigationCart: React.FC = () => {
-  const [cartLength, setCartLength] = useState<number>(0);
-  useEffect(() => {
-    const numberOfItems = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart")!).length
-      : [].length;
-    setCartLength(numberOfItems);
-  }, []);
+  const cartLength = useSelector((state: cartLocalModel[]) => state.length);
 
   return (
     <Link href="/cart" className="flex gap-2">

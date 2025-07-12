@@ -27,6 +27,9 @@ import CartItem from "./CartItem";
 import { VoucherResponse } from "../actions/voucher";
 import TextInput from "./TextInput";
 import { checkVoucher } from "../actions/voucher";
+import { useMemo } from "react";
+import { useSelector } from "react-redux";
+
 type errors = {
   form?: { fullname?: string; phonenumber?: string; address?: string };
   operator?: boolean;
@@ -39,60 +42,45 @@ const initialState = {
   message: "",
 };
 const Cart: React.FC<{ token: string | undefined }> = ({ token }) => {
-  const [cart, setCart] = useState<combinedCartModel[]>([]);
   const [errors, setErrors] = useState<errors>({});
+  const cart = useSelector((state: cartLocalModel[]) => state);
   const [state, submitOrderAction] = useActionState(
     submitFormAction,
     initialState
   );
   const router = useRouter();
+  const [serverCart, setServerCart] = useState<cartServerModel[]>([]);
 
-  let total = 0;
+  const combinedCartData = useMemo(() => {
+    if (serverCart.length === 0 || cart.length === 0) return [];
 
-  if (cart.length > 0) {
-    cart.map(
-      (cartItem) =>
-        (total +=
-          cartItem.prices[
-            cartItem.sizes.findIndex((size) => cartItem.size === size)
-          ] * cartItem.quantity)
-    );
-  }
+    return cart.map((localItem) => {
+      const serverItem = serverCart.find(
+        (s) => s.productId === localItem.productId
+      );
+      return { ...localItem, ...serverItem } as combinedCartModel;
+    });
+  }, [cart, serverCart]);
+
+  const total = useMemo(() => {
+    return combinedCartData.reduce((acc, item) => {
+      const index = item.sizes.findIndex((size) => item.size === size);
+      const price = item.prices?.[index] || 0;
+      return acc + price * item.quantity;
+    }, 0);
+  }, [combinedCartData]);
 
   useEffect(() => {
-    const localCart: cartLocalModel[] = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart")!)
-      : [];
-    async function fetchProductsFromServer() {
-      const ids = [...new Set(localCart.map((item) => item.productId))];
+    if (cart.length === 0) return;
 
-      const serverCart = await getProductsFromIds(ids);
+    const fetchProducts = async () => {
+      const ids = [...new Set(cart.map((item) => item.productId))];
+      const products = await getProductsFromIds(ids);
+      setServerCart(products);
+    };
 
-      const combinedCartsData: combinedCartModel[] = localCart.map(
-        (localCartItem: cartLocalModel) => {
-          const index = serverCart.findIndex(
-            (serverCartItem: cartServerModel) =>
-              localCartItem.productId === serverCartItem.productId
-          );
-
-          return {
-            ...localCartItem,
-            ...serverCart[index],
-          };
-        }
-      );
-
-      setCart(combinedCartsData);
-    }
-    if (localCart.length === 0) {
-      return;
-    }
-    fetchProductsFromServer();
+    fetchProducts();
   }, []);
-
-  function deleteCartItem(id: string) {
-    setCart((prevCart) => prevCart.filter((cartItem) => cartItem.id !== id));
-  }
 
   function submitHandler(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -194,10 +182,9 @@ const Cart: React.FC<{ token: string | undefined }> = ({ token }) => {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((cartItem) => (
+                {combinedCartData.map((cartItem) => (
                   <CartItem
-                    deleteCartItem={deleteCartItem}
-                    key={cartItem.id}
+                    key={cartItem.id + cartItem.size + cartItem.quantity}
                     cartItem={cartItem}
                   />
                 ))}
@@ -398,7 +385,7 @@ const CartSummary: React.FC<{ errors: errors; total: number }> = ({
       <div className="flex gap-2 mb-2">
         <input
           ref={voucher}
-          className="border border-neutral-200 rounded-lg pl-2"
+          className="input border border-neutral-200 rounded-lg pl-2"
           type="text"
           id="voucher"
           name="voucher"

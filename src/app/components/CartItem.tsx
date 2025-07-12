@@ -1,43 +1,18 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
 import { combinedCartModel } from "../models/cart";
-import { cartLocalModel } from "../models/cart";
+
 import { Trash } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { cartReduxActions } from "../lib/store";
 
 const CartItem: React.FC<{
   cartItem: combinedCartModel;
-  deleteCartItem: (id: string) => void;
-}> = ({ cartItem, deleteCartItem }) => {
-  const [selectedSizeIndex, setSelectedSizeIndex] = useState<number>(
-    cartItem.sizes.findIndex((size) => size === cartItem.size)
+}> = ({ cartItem }) => {
+  const dispatch = useDispatch();
+  const selectedSizeIndex = cartItem.sizes.findIndex(
+    (size) => size === cartItem.size
   );
-
-  function updateAndDeleteHandler(
-    e?: ChangeEvent<HTMLSelectElement>,
-    action?: string
-  ) {
-    const cart: cartLocalModel[] = JSON.parse(localStorage.getItem("cart")!);
-
-    const index = cart.findIndex(
-      (localCartItem) => localCartItem.id === cartItem.id
-    );
-
-    if (action === "UPDATE") {
-      setSelectedSizeIndex(
-        cartItem.sizes.findIndex((s) => s === Number(e!.target.value))
-      );
-      cart[index].size =
-        cartItem.sizes[
-          cartItem.sizes.findIndex((s) => s === Number(e!.target.value))
-        ];
-    } else {
-      cart.splice(index, 1);
-      deleteCartItem(cartItem.id);
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }
 
   return (
     <tr key={cartItem.id}>
@@ -46,11 +21,17 @@ const CartItem: React.FC<{
         <div>
           <p>{cartItem.title}</p>
           <select
-            className="border border-neutral-200 p-2 lg:w-32   rounded"
+            className="border border-neutral-200 p-2 lg:w-32 rounded"
             name="sizes"
-            id="sizes"
-            value={cartItem.sizes[selectedSizeIndex]}
-            onChange={(e) => updateAndDeleteHandler(e, "UPDATE")}
+            value={cartItem.size}
+            onChange={(e) =>
+              dispatch(
+                cartReduxActions.updateSize({
+                  id: cartItem.id,
+                  size: Number(e.target.value),
+                })
+              )
+            }
           >
             {cartItem.sizes.map((size) => (
               <option key={size} value={size}>
@@ -64,7 +45,12 @@ const CartItem: React.FC<{
       <td>{cartItem.quantity}</td>
       <td>${cartItem.prices[selectedSizeIndex] * cartItem.quantity}</td>
       <td>
-        <button onClick={() => updateAndDeleteHandler()}>
+        <button
+          type="button"
+          onClick={() =>
+            dispatch(cartReduxActions.deleteCartItem({ id: cartItem.id }))
+          }
+        >
           <Trash />
         </button>
       </td>
