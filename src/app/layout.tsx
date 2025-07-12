@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import MainNavigation from "./components/MainNavigation";
 import Footer from "./components/Footer";
+import { Providers } from "./components/Providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,8 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased flex flex-col min-h-screen`}>
         {modal}
-        <MainNavigation />
-        <div className="flex-1">{children}</div>
+        <Providers>
+          <MainNavigation />
+          <div className="flex-1">{children}</div>
+        </Providers>
         <Footer />
       </body>
     </html>

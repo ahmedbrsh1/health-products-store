@@ -2,37 +2,18 @@
 
 import { useRef } from "react";
 import QuantityInput from "./QuantityInput";
-import { cartLocalModel } from "../models/cart";
-import { redirect } from "next/navigation";
 
+import { redirect } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { cartReduxActions } from "../lib/store";
 const AddToCart: React.FC<{ sizes: number[]; id: string }> = ({
   sizes,
   id,
 }) => {
   const selectRef = useRef<HTMLSelectElement>(null);
   const quantityRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch();
 
-  function addToCart(size: number, quantity: number) {
-    const oldCart: cartLocalModel[] = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart")!)
-      : [];
-    const productIndex = oldCart.findIndex(
-      (cartItem) => cartItem.productId === id && cartItem.size === size
-    );
-    if (productIndex !== -1) {
-      oldCart[productIndex].quantity += quantity;
-      localStorage.setItem("cart", JSON.stringify(oldCart));
-    } else {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([
-          ...oldCart,
-          { id: oldCart.length + 1, productId: id, size, quantity: quantity },
-        ])
-      );
-    }
-    console.log("at4mny tyb");
-  }
   return (
     <>
       <select
@@ -53,9 +34,12 @@ const AddToCart: React.FC<{ sizes: number[]; id: string }> = ({
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <button
           onClick={() =>
-            addToCart(
-              Number(selectRef.current?.value),
-              Number(quantityRef.current?.value)
+            dispatch(
+              cartReduxActions.AddToCart({
+                id,
+                size: Number(selectRef.current?.value) || sizes[0],
+                quantity: Number(quantityRef.current?.value) || 1,
+              })
             )
           }
           className="btn btn-outline btn-primary btn-lg w-full"
@@ -64,9 +48,12 @@ const AddToCart: React.FC<{ sizes: number[]; id: string }> = ({
         </button>
         <button
           onClick={() => {
-            addToCart(
-              Number(selectRef.current?.value),
-              Number(quantityRef.current?.value)
+            dispatch(
+              cartReduxActions.AddToCart({
+                id,
+                size: Number(selectRef.current?.value) || sizes[0],
+                quantity: Number(quantityRef.current?.value) || 1,
+              })
             );
             redirect("/cart");
           }}

@@ -2,38 +2,20 @@
 import { ShoppingCart } from "lucide-react";
 
 import { useState } from "react";
-import { cartLocalModel } from "../models/cart";
+import { useDispatch } from "react-redux";
+import { cartReduxActions } from "../lib/store";
+
 const SelectSize: React.FC<{
   id: string;
   sizes: number[];
   prices: number[];
 }> = (props) => {
   const [modalIsOpen, setModalisOpen] = useState(false);
-
+  const dispatch = useDispatch();
   function triggerModal() {
     setModalisOpen((prev) => !prev);
   }
 
-  function addToCart(size: number) {
-    const oldCart: cartLocalModel[] = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart")!)
-      : [];
-    const productIndex = oldCart.findIndex(
-      (cartItem) => cartItem.productId === props.id && cartItem.size === size
-    );
-    if (productIndex !== -1) {
-      oldCart[productIndex].quantity += 1;
-      localStorage.setItem("cart", JSON.stringify(oldCart));
-    } else {
-      localStorage.setItem(
-        "cart",
-        JSON.stringify([
-          ...oldCart,
-          { id: oldCart.length + 1, productId: props.id, size, quantity: 1 },
-        ])
-      );
-    }
-  }
   return (
     <div className="relative">
       <ShoppingCart
@@ -45,7 +27,9 @@ const SelectSize: React.FC<{
           {props.sizes.map((size, index) => (
             <button
               key={size}
-              onClick={() => addToCart(size)}
+              onClick={() =>
+                dispatch(cartReduxActions.AddToCart({ id: props.id, size }))
+              }
               className="btn btn-primary flex flex-col h-12"
             >
               <span>{size}ML</span>
