@@ -2,19 +2,14 @@ import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { cartLocalModel } from "@/app/models/cart";
 import { PayloadAction } from "@reduxjs/toolkit";
 
-let cart: cartLocalModel[] = [];
-
-if (typeof window !== "undefined") {
-  // Safe to access localStorage
-  const stored = localStorage.getItem("cart");
-  cart = stored ? JSON.parse(stored) : [];
-}
-
-const initialState: cartLocalModel[] = cart;
+const initialState: cartLocalModel[] = [];
 
 const cartSlice = createSlice({
   name: "cart",
   reducers: {
+    setCart(_, action: PayloadAction<cartLocalModel[]>) {
+      return action.payload;
+    },
     AddToCart(
       state,
       action: PayloadAction<{ id: string; size: number; quantity?: number }>
@@ -60,8 +55,3 @@ const cartSlice = createSlice({
 export const store = configureStore({ reducer: cartSlice.reducer });
 
 export const cartReduxActions = cartSlice.actions;
-
-store.subscribe(() => {
-  const state = store.getState();
-  localStorage.setItem("cart", JSON.stringify(state));
-});
