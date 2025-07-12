@@ -3,6 +3,8 @@
 import { ChangeEvent, useState } from "react";
 import { combinedCartModel } from "../models/cart";
 import { cartLocalModel } from "../models/cart";
+import { Trash } from "lucide-react";
+
 const CartItem: React.FC<{
   cartItem: combinedCartModel;
   deleteCartItem: (id: string) => void;
@@ -39,12 +41,12 @@ const CartItem: React.FC<{
 
   return (
     <tr key={cartItem.id}>
-      <td className="flex items-center gap-4">
+      <td className="lg:flex items-center gap-4">
         <img className="w-16" src={cartItem.image} alt="ProductImage" />
         <div>
           <p>{cartItem.title}</p>
           <select
-            className="border border-neutral-200 p-2 w-32 rounded"
+            className="border border-neutral-200 p-2 lg:w-32   rounded"
             name="sizes"
             id="sizes"
             value={cartItem.sizes[selectedSizeIndex]}
@@ -62,7 +64,9 @@ const CartItem: React.FC<{
       <td>{cartItem.quantity}</td>
       <td>${cartItem.prices[selectedSizeIndex] * cartItem.quantity}</td>
       <td>
-        <button onClick={() => updateAndDeleteHandler()}>Delete</button>
+        <button onClick={() => updateAndDeleteHandler()}>
+          <Trash />
+        </button>
       </td>
     </tr>
   );

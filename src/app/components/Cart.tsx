@@ -183,27 +183,26 @@ const Cart: React.FC<{ token: string | undefined }> = ({ token }) => {
             <h5 className="flex gap-2">
               <ShoppingCart /> Order Summary
             </h5>
-            <div className="overflow-x-auto">
-              <table className="table max-w-full table-auto">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {cart.map((cartItem) => (
-                    <CartItem
-                      deleteCartItem={deleteCartItem}
-                      key={cartItem.id}
-                      cartItem={cartItem}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
+
+            <table className="table-xs sm:table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cart.map((cartItem) => (
+                  <CartItem
+                    deleteCartItem={deleteCartItem}
+                    key={cartItem.id}
+                    cartItem={cartItem}
+                  />
+                ))}
+              </tbody>
+            </table>
           </section>
 
           <section className="p-4 border border-neutral-200 rounded mb-4">
